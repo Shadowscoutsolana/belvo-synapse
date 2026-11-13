@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Canonical Venture Detail Page (Blueprint Section 4 Template) -->
+<article class="py-12 bg-cream-50 min-h-screen">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Breadcrumb: Home > Ventures > [Venture] -->
+    <nav class="flex text-xs text-stone-500 mb-8" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-2">
+        <li><a href="/" class="hover:text-maroon-800 transition">Home</a></li>
+        <li><span class="text-stone-400">/</span></li>
+        <li><a href="/ventures" class="hover:text-maroon-800 transition">Ventures</a></li>
+        <li><span class="text-stone-400">/</span></li>
+        <li class="text-maroon-900 font-bold" aria-current="page">{{ venture.name }}</li>
+      </ol>
+    </nav>
+
+    <!-- Main Card -->
+    <div class="bg-white rounded-3xl border border-stone-200 p-8 sm:p-12 shadow-sm">
+      
+      <!-- Meta Badges & Last Verified -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-stone-100">
+        <div class="flex items-center space-x-2">
+          <span class="bg-softpink-100 text-maroon-900 text-xs font-bold px-3 py-1 rounded-full border border-softpink-300">
+            {{ venture.sector }}
+          </span>
+          <span class="bg-stone-100 text-stone-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+            Division of Belvo Ventures Group
+          </span>
+        </div>
+        <div class="text-xs text-stone-500">
+          <span class="trust-badge">
+            ✓ Last Verified: {{ page_seo.last_verified_at if page_seo else "13 November 2026" }} by {{ page_seo.verified_by if page_seo else "Hrishikesh (Founder)" }}
+          </span>
+        </div>
+      </div>
+
+      <!-- H1 Venture Name -->
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-stone-900 tracking-tight mt-6">
+        {{ venture.name }}
+      </h1>
+
+      <!-- One-Sentence Canonical Definition -->
+      <div class="mt-4 p-4 bg-maroon-50/60 border-l-4 border-maroon-800 rounded-r-xl">
+        <p class="text-lg font-semibold text-maroon-950">
+          {{ venture.name }} is the {{ venture.sector.lower() }} division of Belvo Ventures Group.
+        </p>
+      </div>
+
+      <!-- Scope Breakdown: What it does, who it serves, key capabilities -->
+      <div class="mt-8 space-y-6 text-stone-700 text-base leading-relaxed">
+        <div>
+          <h2 class="text-lg font-bold text-stone-900 uppercase tracking-wide text-xs text-maroon-800 mb-2">
+            Overview & Mandate
+          </h2>
+          <p>{{ venture.description }}</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-stone-900 uppercase tracking-wide text-xs text-maroon-800 mb-2">
+            Key Focus
+          </h2>
+          <p class="font-medium text-stone-800">{{ venture.one_line }}</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-stone-900 uppercase tracking-wide text-xs text-maroon-800 mb-2">
+            Operating Entity & Hierarchy
+          </h2>
+          <p class="text-sm text-stone-600">
+            {{ venture.name }} operates as an internal division of <strong>Belvo Ventures Group</strong> (Mumbai, India) and is not an independent legal entity. All contracts, leadership governance, and infrastructure are anchored within Belvo Ventures Group.
+          </p>
+        </div>
+      </div>
+
+      <!-- Contact & Official Routing -->
+      <div class="mt-10 p-6 bg-cream-100 rounded-2xl border border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h3 class="font-bold text-stone-900 text-sm">Direct Contact Route for {{ venture.name }}</h3>
+          <p class="text-xs text-stone-500 mt-1">Official communication via Belvo Central Registry</p>
+        </div>
+        <a href="mailto:contact@belvoventures.com?subject=Inquiry%20regarding%20{{ venture.name }}" class="bg-maroon-800 text-white font-semibold text-xs px-4 py-2.5 rounded-lg hover:bg-maroon-900 transition">
+          Inquire via contact@belvoventures.com →
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Sibling Venture Navigation Links (Blueprint Section 4) -->
+    <div class="mt-12">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-4">
+        Explore Other Divisions in Belvo Ventures Group
+      </h3>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {% for sib in siblings %}
+        <a href="/ventures/{{ sib.slug }}" class="p-3 bg-white rounded-xl border border-stone-200 hover:border-maroon-600 transition text-xs flex flex-col justify-between group">
+          <span class="font-bold text-stone-900 group-hover:text-maroon-800">{{ sib.name }}</span>
+          <span class="text-[10px] text-stone-400 mt-1">{{ sib.sector }}</span>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</article>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-gradient-to-b from-maroon-900 to-maroon-800 text-white py-14">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="flex text-xs text-softpink-200 mb-4" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1">
+        <li><a href="/" class="hover:text-white">Home</a></li>
+        <li><span class="mx-2">/</span></li>
+        <li class="text-white font-semibold">Achievements</li>
+      </ol>
+    </nav>
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Milestones & Achievements</h1>
+    <p class="mt-3 text-softpink-100 text-base">
+      Dated timeline of documented progress and operational milestones for Belvo Ventures Group.
+    </p>
+  </div>
+</div>
+
+<section class="py-16 bg-cream-50 min-h-[60vh]">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="space-y-8 relative before:absolute before:inset-0 before:left-8 before:w-0.5 before:bg-stone-200">
+      
+      <!-- Milestone 1: 1,000+ Interns -->
+      <article class="relative flex items-start space-x-6">
+        <div class="w-16 h-16 rounded-full bg-maroon-800 border-4 border-white shadow-md flex items-center justify-center text-white font-bold text-xs shrink-0 z-10">
+          2026
+        </div>
+        <div class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm flex-grow">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-bold text-maroon-800 uppercase">National Education Milestone</span>
+            <span class="text-stone-400">Late 2026</span>
+          </div>
+          <h2 class="text-xl font-bold text-stone-900">1,000+ Interns Trained Across India</h2>
+          <p class="text-stone-600 text-sm mt-2 leading-relaxed">
+            Belvo successfully trained more than 1,000 learners across multiple technology, business, and marketing batches, maintaining active cohort sizes exceeding 500 participants simultaneously.
+          </p>
+        </div>
+      </article>
+
+      <!-- Milestone 2: 9 Divisions Consolidation -->
+      <article class="relative flex items-start space-x-6">
+        <div class="w-16 h-16 rounded-full bg-maroon-800 border-4 border-white shadow-md flex items-center justify-center text-white font-bold text-xs shrink-0 z-10">
+          2024
+        </div>
+        <div class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm flex-grow">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-bold text-maroon-800 uppercase">Corporate Structuring</span>
+            <span class="text-stone-400">Mid 2024</span>
+          </div>
+          <h2 class="text-xl font-bold text-stone-900">Expansion to Nine Specialized Operating Divisions</h2>
+          <p class="text-stone-600 text-sm mt-2 leading-relaxed">
+            Formalized the multi-disciplinary umbrella consolidating marketing (Belvo Digital), funding (Capvanta), design (Tatva), coaching (Hridayam), legal (Verdict), finance (Fyndra), software (Belqora), hardware (Klyro), and social impact (Sahay).
+          </p>
+        </div>
+      </article>
+
+      <!-- Milestone 3: Founding -->
+      <article class="relative flex items-start space-x-6">
+        <div class="w-16 h-16 rounded-full bg-maroon-800 border-4 border-white shadow-md flex items-center justify-center text-white font-bold text-xs shrink-0 z-10">
+          2022
+        </div>
+        <div class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm flex-grow">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-bold text-maroon-800 uppercase">Inception</span>
+            <span class="text-stone-400">14 February 2022</span>
+          </div>
+          <h2 class="text-xl font-bold text-stone-900">Founding of Belvo Ventures Group in Mumbai</h2>
+          <p class="text-stone-600 text-sm mt-2 leading-relaxed">
+            Inception of Belvo in Mumbai by founder Hrishikesh, starting with freelance advisory and growing into a structured network of founders, professionals, and clients.
+          </p>
+        </div>
+      </article>
+
+    </div>
+
+  </div>
+</section>
+{% endblock %}

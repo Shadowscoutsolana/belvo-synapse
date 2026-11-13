@@ -1,0 +1,103 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="space-y-6">
+  
+  <!-- Header & Status -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-stone-200 shadow-sm">
+    <div>
+      <h1 class="text-2xl font-extrabold text-stone-900">Synapse Operational Dashboard</h1>
+      <p class="text-xs text-stone-500 mt-1">Single source of truth management & AI visibility engine.</p>
+    </div>
+    <div class="flex items-center space-x-2">
+      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        ● Public SSR Active
+      </span>
+      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-maroon-50 text-maroon-800 border border-maroon-200">
+        AI Crawlers Allowed
+      </span>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+    <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm">
+      <span class="text-xs text-stone-500 font-medium uppercase">Active Divisions</span>
+      <div class="text-3xl font-extrabold text-maroon-900 mt-2">{{ ventures_count }} / 9</div>
+      <span class="text-xs text-emerald-600 font-semibold mt-1 block">100% Published</span>
+    </div>
+
+    <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm">
+      <span class="text-xs text-stone-500 font-medium uppercase">Trained Interns</span>
+      <div class="text-3xl font-extrabold text-stone-900 mt-2">1,000+</div>
+      <span class="text-xs text-stone-500 mt-1 block">500+ in active cohorts</span>
+    </div>
+
+    <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm">
+      <span class="text-xs text-stone-500 font-medium uppercase">AI Visibility Test Qs</span>
+      <div class="text-3xl font-extrabold text-maroon-900 mt-2">{{ questions_count }}</div>
+      <span class="text-xs text-stone-500 mt-1 block">Across 5 major LLMs</span>
+    </div>
+
+    <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm">
+      <span class="text-xs text-stone-500 font-medium uppercase">Schema.org JSON-LD</span>
+      <div class="text-3xl font-extrabold text-stone-900 mt-2">Valid</div>
+      <span class="text-xs text-stone-500 mt-1 block">Org, Depts, FAQs</span>
+    </div>
+  </div>
+
+  <!-- Quick Rules & Guardrails Reminder -->
+  <div class="bg-softpink-50 border border-softpink-200 rounded-2xl p-5">
+    <div class="flex items-start space-x-3">
+      <span class="text-xl">⚠️</span>
+      <div>
+        <h4 class="font-bold text-maroon-900 text-sm">Blueprint Content Guardrails Enforced:</h4>
+        <ul class="text-xs text-maroon-800 list-disc list-inside mt-1.5 space-y-1">
+          <li><strong>Mumbai Only:</strong> Never write 'Bombay'.</li>
+          <li><strong>Divisions of One Company:</strong> The 9 ventures must never be named or described as separate legal companies.</li>
+          <li><strong>No Regulatory Claims:</strong> Do not add registration numbers, CIN/LLPIN, or legal entity licenses.</li>
+          <li><strong>Human Approver:</strong> Only approved changes are pushed live into the sitemap and structured markup.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Links Table -->
+  <div class="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-bold text-stone-900 text-lg">The 9 Operating Divisions</h3>
+      <a href="/admin/ventures" class="text-xs font-semibold text-maroon-800 hover:underline">Manage All →</a>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-stone-50 text-stone-500 uppercase font-semibold">
+          <tr>
+            <th class="p-3">Order</th>
+            <th class="p-3">Division</th>
+            <th class="p-3">Sector</th>
+            <th class="p-3">Status</th>
+            <th class="p-3">Action</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-stone-100">
+          {% for v in ventures %}
+          <tr>
+            <td class="p-3 font-mono">0{{ v.display_order }}</td>
+            <td class="p-3 font-bold text-stone-900">{{ v.name }}</td>
+            <td class="p-3 text-stone-600">{{ v.sector }}</td>
+            <td class="p-3">
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-700">Active</span>
+            </td>
+            <td class="p-3">
+              <a href="/admin/ventures/edit/{{ v.id }}" class="text-maroon-800 font-semibold hover:underline">Edit & Check →</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
