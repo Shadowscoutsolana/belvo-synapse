@@ -119,7 +119,7 @@ def seed_database():
                 db.add(v)
             db.commit()
 
-        # 3. Seed Founder (Hrishikesh)
+        # 3. Seed Founder (Hrishikesh - strictly only Hrishikesh as confirmed)
         existing_founder = db.query(Person).filter(Person.slug == "hrishikesh").first()
         if not existing_founder:
             print("Seeding Founder profile...")
@@ -127,11 +127,39 @@ def seed_database():
                 slug="hrishikesh",
                 full_name="Hrishikesh",
                 role="Founder",
-                bio="Hrishikesh is the Founder of Belvo Ventures Group. Beginning with freelance advisory in February 2022, he built an expansive ecosystem connecting founders, creative professionals, and students across 9 dedicated divisions in Mumbai, India.",
+                bio="Hrishikesh is the Founder of Belvo Ventures Group. Beginning with freelance advisory in February 2022 in Mumbai, he built an expansive ecosystem connecting founders, creative professionals, and students across 9 dedicated divisions in Mumbai, India.",
                 linkedin_url="https://linkedin.com/company/belvoventures",
                 consent_to_publish=True
             )
             db.add(founder)
+            db.commit()
+
+        # 3.1 Seed Confirmed Products & Services
+        if db.query(ProductService).count() == 0:
+            print("Seeding confirmed division offerings...")
+            services_map = [
+                ("belvo-digital", "Digital Marketing & Web Services", "Web, social media and digital marketing services to help businesses grow online.", ["Web Development", "Social Media Marketing", "Performance Campaigns"]),
+                ("capvanta", "Funding Enablement", "Helping founders and businesses get the funds they need to grow.", ["Investment Readiness", "Pitch Deck Structuring", "Capital Advisory"]),
+                ("tatva", "Interior Design & Space Solutions", "Interior design and space solutions for commercial workspaces and residential environments.", ["Space Planning", "Commercial Interiors", "Turnkey Design Solutions"]),
+                ("hridayam", "Coaching & Personal Development", "Coaching to help people learn, grow and build confidence.", ["Founder Mentorship", "Confidence Building", "Leadership Guidance"]),
+                ("verdict", "Legal Support for Founders", "Legal support for founders and businesses.", ["Contract Structuring", "Documentation Support", "Commercial Governance Hygiene"]),
+                ("fyndra", "CA & Financial Support", "CA support to help businesses manage their accounts and finances.", ["Accounting Advisory", "Bookkeeping Hygiene", "Tax & Financial Compliance"]),
+                ("belqora", "Software Solutions", "Software solutions for businesses.", ["Custom Software Development", "Cloud Architecture", "Workflow Automation"]),
+                ("klyro", "Hardware Solutions", "Hardware solutions for businesses.", ["Device Integration", "Embedded Prototyping", "Technical Hardware Support"]),
+                ("sahay", "Social Impact & NGO Outreach", "Belvo's NGO division, working for social good.", ["Youth Skill Programs", "Educational Cohorts", "Grassroot Community Outreach"])
+            ]
+            for v_slug, s_name, s_desc, feats in services_map:
+                vent = db.query(Venture).filter(Venture.slug == v_slug).first()
+                if vent:
+                    ps = ProductService(
+                        slug=f"{v_slug}-services",
+                        name=s_name,
+                        venture_id=vent.id,
+                        short_description=s_desc,
+                        audience="Founders, businesses, and learners",
+                        features=feats
+                    )
+                    db.add(ps)
             db.commit()
 
         # 4. Seed FAQs
