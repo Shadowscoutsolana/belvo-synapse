@@ -8,11 +8,9 @@ from typing import Optional
 from app.database import get_db
 from app.models.company import Company, Venture, FAQ
 from app.models.users import User, AuditLog
-from app.models.ai_visibility import AIPlatform, AIQuestion, AIRun
 from app.services.auth import verify_password, create_access_token, decode_access_token
 from app.services.consistency import ConsistencyValidator
 from app.services.audit import AuditService
-from app.services.ai_evaluator import AIEvaluator
 
 templates = Jinja2Templates(directory=str(Path(__file__).parent.parent / "templates"))
 
@@ -74,7 +72,7 @@ def admin_dashboard(request: Request, db: Session = Depends(get_db)):
         return RedirectResponse(url="/admin/login", status_code=303)
 
     ventures_count = db.query(Venture).count()
-    questions_count = db.query(AIQuestion).count()
+    faqs_count = db.query(FAQ).count()
     ventures = db.query(Venture).order_by(Venture.display_order).all()
 
     return templates.TemplateResponse(
@@ -83,7 +81,7 @@ def admin_dashboard(request: Request, db: Session = Depends(get_db)):
         context={
             "current_user": user,
             "ventures_count": ventures_count,
-            "questions_count": questions_count,
+            "faqs_count": faqs_count,
             "ventures": ventures
         }
     )
@@ -292,112 +290,6 @@ def venture_edit_post(
             "success": True
         }
     )
-
-# AI Visibility Dashboard
-@router.get("/ai-visibility")
-def ai_visibility_admin(request: Request, db: Session = Depends(get_db)):
-    user = get_current_user(request, db)
-    if not user:
-        return RedirectResponse(url="/admin/login", status_code=303)
-
-    platforms = db.query(AIPlatform).all()
-    questions = db.query(AIQuestion).filter(AIQuestion.is_active == True).all()
-
-    platform_stats = []
-    for p in platforms:
-        runs = db.query(AIRun).filter(AIRun.platform_id == p.id).all()
-        avg_score = (sum(r.score for r in runs) / len(runs)) if runs else None
-        platform_stats.append({
-            "id": p.id,
-            "name": p.name,
-            "access_method": p.access_method,
-            "avg_score": avg_score,
-            "runs_count": len(runs)
-        })
-
-    recent_runs = db.query(AIRun).order_by(AIRun.run_date.desc()).limit(15).all()
-
-    return templates.TemplateResponse(
-        request=request,
-        name="admin/ai_visibility.html",
-        context={
-            "current_user": user,
-            "platforms": platform_stats,
-            "questions": questions,
-            "recent_runs": recent_runs
-        }
-    )
-
-@router.post("/ai-visibility/run")
-def ai_visibility_record_run(
-    request: Request,
-    question_id: int = Form(...),
-    platform_id: int = Form(...),
-    model_or_version: Optional[str] = Form(None),
-    answer_text: str = Form(...),
-    db: Session = Depends(get_db)
-):
-    user = get_current_user(request, db)
-    if not user:
-        return RedirectResponse(url="/admin/login", status_code=303)
-
-    question = db.query(AIQuestion).filter(AIQuestion.id == question_id).first()
-    if not question:
-        raise HTTPException(status_code=404, detail="Question not found")
-
-    score, notes = AIEvaluator.score_response(question.expected_facts, answer_text)
-
-    new_run = AIRun(
-        question_id=question_id,
-        platform_id=platform_id,
-        model_or_version=model_or_version or "Benchmark Model",
-        answer_text=answer_text,
-        score=score,
-        checker=user.name,
-        notes=notes
-    )
-    db.add(new_run)
-    db.commit()
-
-    return RedirectResponse(url="/admin/ai-visibility", status_code=303)
-
-# One-Click Offline Demo Seeder
-@router.post("/ai-visibility/demo-seed")
-@router.get("/ai-visibility/demo-seed")
-def ai_visibility_demo_seed(request: Request, db: Session = Depends(get_db)):
-    user = get_current_user(request, db)
-    if not user:
-        return RedirectResponse(url="/admin/login", status_code=303)
-
-    platforms = {p.name: p.id for p in db.query(AIPlatform).all()}
-    questions = {q.question_text: q for q in db.query(AIQuestion).all()}
-
-    demo_data = [
-        ("What is Belvo Ventures Group?", "ChatGPT", "GPT-4o", "Belvo Ventures Group is a Mumbai-based group of ventures founded in 2022 with nine ventures working under one roof."),
-        ("Who founded Belvo Ventures Group?", "Gemini", "Gemini 1.5 Flash", "Belvo Ventures Group was founded by Hrishikesh in Mumbai, India."),
-        ("Does Belvo run internships?", "Claude", "Claude 3.5 Sonnet", "Yes, Belvo runs structured internship batches across India with over 1,000 interns trained so far."),
-        ("What ventures does Belvo have?", "Copilot", "Copilot Web", "Belvo has nine ventures: Belvo Digital, Capvanta, Tatva, Hridayam, Verdict, Fyndra, Belqora, Klyro, and Sahay."),
-        ("What does Belvo Digital do?", "Perplexity", "Perplexity Sonar", "Belvo Digital is a division of Belvo Ventures Group offering web, social media and digital marketing services to help businesses grow online.")
-    ]
-
-    for q_text, plat_name, model_ver, ans_text in demo_data:
-        if q_text in questions and plat_name in platforms:
-            q_obj = questions[q_text]
-            plat_id = platforms[plat_name]
-            score, notes = AIEvaluator.score_response(q_obj.expected_facts, ans_text)
-            run = AIRun(
-                question_id=q_obj.id,
-                platform_id=plat_id,
-                model_or_version=model_ver,
-                answer_text=ans_text,
-                score=score,
-                checker=f"{user.name} (Offline Baseline)",
-                notes=notes
-            )
-            db.add(run)
-
-    db.commit()
-    return RedirectResponse(url="/admin/ai-visibility", status_code=303)
 
 # Audit Logs
 @router.get("/audit-logs")

@@ -21,7 +21,6 @@ Belvo Synapse is an authoritative, server-rendered knowledge repository and disc
   - Dynamic `Schema.org` JSON-LD (`Organization` with `department` subdivisions, `Person`, `FAQPage`, `BreadcrumbList`).
   - Crawler-optimized `/robots.txt` explicitly permitting `GPTBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, `Bingbot`, while blocking `/admin/` and `/api/`.
   - Canonical XML Sitemap (`/sitemap.xml`) and structured summary (`/llms.txt`).
-- **AI Visibility Dashboard:** Benchmark question bank with 0–2 scoring rubric, gap analysis, and platform comparison cards.
 
 ---
 

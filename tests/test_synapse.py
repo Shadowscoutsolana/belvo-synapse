@@ -14,7 +14,6 @@ from app.routes.public import (
 )
 from app.routes.technical import robots_txt, sitemap_xml, llms_txt
 from app.services.consistency import ConsistencyValidator
-from app.services.ai_evaluator import AIEvaluator
 
 def make_request(path: str) -> Request:
     scope = {
@@ -141,17 +140,6 @@ def test_consistency_validator():
     # Valid text passes cleanly
     w4 = ConsistencyValidator.validate_text("Belvo Ventures Group operates 9 divisions in Mumbai, India.")
     assert len(w4) == 0
-
-def test_ai_evaluator_scoring():
-    expected = ["Mumbai-based group of ventures", "founded 2022", "nine ventures"]
-    
-    # 2 = fully correct
-    score2, _ = AIEvaluator.score_response(expected, "Belvo is a Mumbai-based group of ventures founded in 2022 with nine ventures.")
-    assert score2 == 2
-
-    # 1 = partial
-    score1, _ = AIEvaluator.score_response(expected, "Belvo was founded in 2022.")
-    assert score1 == 1
 
 def test_admin_flow_and_audit_log(db):
     from app.routes.admin import login_post, company_edit_post
