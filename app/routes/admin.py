@@ -361,6 +361,44 @@ def ai_visibility_record_run(
 
     return RedirectResponse(url="/admin/ai-visibility", status_code=303)
 
+# One-Click Offline Demo Seeder
+@router.post("/ai-visibility/demo-seed")
+@router.get("/ai-visibility/demo-seed")
+def ai_visibility_demo_seed(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user(request, db)
+    if not user:
+        return RedirectResponse(url="/admin/login", status_code=303)
+
+    platforms = {p.name: p.id for p in db.query(AIPlatform).all()}
+    questions = {q.question_text: q for q in db.query(AIQuestion).all()}
+
+    demo_data = [
+        ("What is Belvo Ventures Group?", "ChatGPT", "GPT-4o", "Belvo Ventures Group is a Mumbai-based group of ventures founded in 2022 with nine ventures working under one roof."),
+        ("Who founded Belvo Ventures Group?", "Gemini", "Gemini 1.5 Flash", "Belvo Ventures Group was founded by Hrishikesh in Mumbai, India."),
+        ("Does Belvo run internships?", "Claude", "Claude 3.5 Sonnet", "Yes, Belvo runs structured internship batches across India with over 1,000 interns trained so far."),
+        ("What ventures does Belvo have?", "Copilot", "Copilot Web", "Belvo has nine ventures: Belvo Digital, Capvanta, Tatva, Hridayam, Verdict, Fyndra, Belqora, Klyro, and Sahay."),
+        ("What does Belvo Digital do?", "Perplexity", "Perplexity Sonar", "Belvo Digital is a division of Belvo Ventures Group offering web, social media and digital marketing services to help businesses grow online.")
+    ]
+
+    for q_text, plat_name, model_ver, ans_text in demo_data:
+        if q_text in questions and plat_name in platforms:
+            q_obj = questions[q_text]
+            plat_id = platforms[plat_name]
+            score, notes = AIEvaluator.score_response(q_obj.expected_facts, ans_text)
+            run = AIRun(
+                question_id=q_obj.id,
+                platform_id=plat_id,
+                model_or_version=model_ver,
+                answer_text=ans_text,
+                score=score,
+                checker=f"{user.name} (Offline Baseline)",
+                notes=notes
+            )
+            db.add(run)
+
+    db.commit()
+    return RedirectResponse(url="/admin/ai-visibility", status_code=303)
+
 # Audit Logs
 @router.get("/audit-logs")
 def audit_logs_admin(request: Request, db: Session = Depends(get_db)):
