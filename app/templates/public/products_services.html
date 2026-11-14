@@ -1,48 +1,28 @@
 {% extends "base.html" %}
+{% from "partials/page_hero.html" import page_hero %}
 
 {% block content %}
-<div class="bg-gradient-to-b from-maroon-900 to-maroon-800 text-white py-14">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <nav class="flex text-xs text-softpink-200 mb-4" aria-label="Breadcrumb">
-      <ol class="inline-flex items-center space-x-1">
-        <li><a href="/" class="hover:text-white">Home</a></li>
-        <li><span class="mx-2">/</span></li>
-        <li class="text-white font-semibold">Products & Services</li>
-      </ol>
-    </nav>
-    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Products & Services Catalog</h1>
-    <p class="mt-3 text-softpink-100 max-w-2xl text-base">
-      Organized directory of confirmed capabilities and offerings across the 9 specialized divisions of Belvo Ventures Group.
-    </p>
-  </div>
-</div>
+{{ page_hero("Products & Services", "05 / Capabilities", "Products & Services Catalog", "Organized directory of confirmed capabilities and offerings across the 9 specialized divisions of Belvo Ventures Group in Mumbai.") }}
 
-<section class="py-16 bg-cream-50 min-h-[60vh]">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<section class="section">
+  <div class="wrap">
+    <div class="cards c3">
       {% for v in ventures %}
-      <div class="bg-white rounded-2xl border border-stone-200 p-6 flex flex-col justify-between shadow-sm hover:border-maroon-300 transition">
+      <div class="card hover svc reveal">
         <div>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-maroon-700 block mb-1">{{ v.sector }}</span>
-          <h2 class="text-xl font-bold text-stone-900 mb-1">{{ v.name }}</h2>
-          <p class="text-stone-600 text-xs leading-relaxed mb-4">
-            {{ v.one_line }}
-          </p>
+          <span class="label">{{ v.sector }}</span>
+          <h2 class="h3">{{ v.name }}</h2>
+          <p style="font-size:15px">{{ v.one_line }}</p>
 
           {% if v.products_services %}
-          <div class="mt-4 pt-4 border-t border-stone-100">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-2">Confirmed Capabilities</span>
+          <div style="margin-top:26px;padding-top:22px;border-top:1px solid var(--line)">
+            <span class="label" style="font-size:11px">Confirmed Capabilities</span>
             {% for ps in v.products_services %}
-            <div class="mb-3">
-              <h3 class="text-xs font-bold text-stone-800">{{ ps.name }}</h3>
+            <div style="margin-bottom:14px">
+              <h3 style="font-family:var(--font-body);font-size:15px;letter-spacing:0;font-weight:600">{{ ps.name }}</h3>
               {% if ps.features %}
-              <ul class="mt-1.5 space-y-1 text-xs text-stone-600">
-                {% for f in ps.features %}
-                <li class="flex items-center">
-                  <span class="text-maroon-700 mr-1.5 font-bold">✓</span>
-                  <span>{{ f }}</span>
-                </li>
-                {% endfor %}
+              <ul>
+                {% for f in ps.features %}<li>{{ f }}</li>{% endfor %}
               </ul>
               {% endif %}
             </div>
@@ -51,11 +31,9 @@
           {% endif %}
         </div>
 
-        <div class="pt-4 border-t border-stone-100 flex items-center justify-between text-xs mt-4">
-          <span class="text-stone-400">Division of Belvo</span>
-          <a href="/ventures/{{ v.slug }}" class="font-bold text-maroon-800 hover:underline">
-            View Division Scope →
-          </a>
+        <div class="svc-foot">
+          <span>Division of Belvo</span>
+          <a href="/ventures/{{ v.slug }}">View division scope →</a>
         </div>
       </div>
       {% endfor %}

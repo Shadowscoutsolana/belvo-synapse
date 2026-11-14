@@ -1,51 +1,31 @@
 {% extends "base.html" %}
+{% from "partials/page_hero.html" import page_hero %}
 
 {% block content %}
-<div class="bg-gradient-to-b from-maroon-900 to-maroon-800 text-white py-14">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <nav class="flex text-xs text-softpink-200 mb-4" aria-label="Breadcrumb">
-      <ol class="inline-flex items-center space-x-1">
-        <li><a href="/" class="hover:text-white">Home</a></li>
-        <li><span class="mx-2">/</span></li>
-        <li class="text-white font-semibold">Leadership</li>
-      </ol>
-    </nav>
-    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Executive Leadership</h1>
-    <p class="mt-3 text-softpink-100 text-base">
-      Verified profiles of the founding leadership guiding Belvo Ventures Group.
-    </p>
-  </div>
-</div>
+{{ page_hero("Leadership", "03 / People", "Executive Leadership", "Verified profiles of the founding leadership guiding Belvo Ventures Group.") }}
 
-<section class="py-16 bg-cream-50 min-h-[60vh]">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    
-    <!-- Founder Card (Section 3.2 Approved Text) -->
-    <div class="bg-white rounded-3xl border border-stone-200 p-8 sm:p-12 shadow-sm">
-      <div class="flex flex-col sm:flex-row items-start gap-8">
-        
-        <!-- Profile Image Placeholder with Proper Alt-Text -->
-        <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl bg-gradient-to-br from-maroon-800 to-softpink-300 flex items-center justify-center text-white text-5xl font-extrabold shrink-0 shadow-md">
-          H
-        </div>
+<section class="section">
+  <div class="wrap">
 
-        <div class="flex-grow">
-          <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-            <h2 class="text-3xl font-extrabold text-stone-900">Hrishikesh</h2>
-            <span class="trust-badge">Verified Founder</span>
+    <!-- Founder Card (Approved Text) -->
+    <div class="card soft tilt reveal" data-tilt>
+      <div class="split" style="grid-template-columns:auto 1fr;gap:clamp(24px,4vw,56px)">
+        <div class="avatar" style="width:clamp(110px,14vw,190px);height:clamp(110px,14vw,190px);font-size:clamp(48px,6vw,84px)" role="img" aria-label="Hrishikesh, Founder of Belvo Ventures Group">H</div>
+        <div>
+          <div class="meta-row" style="justify-content:space-between;margin-bottom:10px">
+            <h2 class="h2" style="font-size:clamp(36px,4.4vw,64px)">Hrishikesh</h2>
+            <span class="pill ok">Verified Founder</span>
           </div>
-          <p class="text-sm font-bold text-maroon-800 uppercase tracking-wider mb-4">Founder, Belvo Ventures Group</p>
-          
-          <div class="space-y-4 text-stone-700 text-sm leading-relaxed">
-            <p>
-              Hrishikesh is the Founder of Belvo Ventures Group. Beginning with freelance advisory in February 2022 in Mumbai, he recognized the fragmented landscape early-stage founders face when sourcing marketing, funding, software, CA, and legal support.
-            </p>
-            <p>
-              Under his direction, Belvo was structured into 9 dedicated divisions under one unified ecosystem, accompanied by a nationwide internship initiative that has trained over 1,000 learners to date.
-            </p>
-          </div>
+          <p class="label" style="color:var(--ink);margin-bottom:26px">Founder, Belvo Ventures Group</p>
 
-          <div class="mt-6 pt-6 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
+          <p style="color:var(--ink);font-size:18px">
+            Hrishikesh is the Founder of Belvo Ventures Group. Beginning with freelance advisory in February 2022 in Mumbai, he recognized the fragmented landscape early-stage founders face when sourcing marketing, funding, software, CA, and legal support.
+          </p>
+          <p style="margin-top:16px;font-size:18px">
+            Under his direction, Belvo was structured into 9 dedicated divisions under one unified ecosystem, accompanied by a nationwide internship initiative that has trained over 1,000 learners to date.
+          </p>
+
+          <div class="meta-row" style="justify-content:space-between;margin-top:32px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)">
             <span>Location: Mumbai, India</span>
             <span>Last Verified: 13 November 2026</span>
           </div>
@@ -54,10 +34,9 @@
     </div>
 
     <!-- Future Leaders Note -->
-    <div class="mt-8 text-center text-xs text-stone-500">
-      <p>Additional leadership profiles and division heads will be published here upon verification.</p>
-    </div>
-
+    <p class="muted" style="margin-top:28px;font-size:14px;text-align:center">
+      Additional leadership profiles and division heads will be published here upon verification.
+    </p>
   </div>
 </section>
 {% endblock %}

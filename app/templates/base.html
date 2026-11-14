@@ -8,84 +8,22 @@
   {% if canonical_url %}
   <link rel="canonical" href="{{ canonical_url }}">
   {% endif %}
-  
+
   <!-- OpenGraph -->
   <meta property="og:title" content="{{ seo_title or title or 'Belvo Ventures Group' }}">
   <meta property="og:description" content="{{ meta_description or 'Official verified source of truth for Belvo Ventures Group and its nine specialized divisions.' }}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ canonical_url or 'https://belvosynapse.com' }}">
   <meta property="og:site_name" content="Belvo Synapse">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0c0c0d">
 
-  <!-- Tailwind CSS CDN for instant, zero-build styling -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            maroon: {
-              50: '#fbf4f5',
-              100: '#f6e4e7',
-              200: '#eecdd3',
-              300: '#e0a7b2',
-              400: '#ce7687',
-              500: '#ba4e63',
-              600: '#a3364c',
-              700: '#80142b',
-              800: '#6b1527',
-              900: '#4d0f1b',
-              950: '#2d060e'
-            },
-            softpink: {
-              50: '#fdf7f8',
-              100: '#fcf0f2',
-              200: '#f9dde2',
-              300: '#f4bec7',
-              400: '#ec96a5',
-              500: '#e06e83',
-            },
-            cream: {
-              50: '#fefefe',
-              100: '#fcfbfa',
-              200: '#f8f6f3',
-              300: '#f2eee8',
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-
-  <!-- Custom CSS for Synapse Motif & Trust Stamps -->
-  <style>
-    body {
-      background-color: #fcfbfa;
-      color: #1e1e1e;
-      font-size: 16px;
-      line-height: 1.6;
-    }
-    .synapse-node {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .synapse-node:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px -5px rgba(128, 20, 43, 0.12);
-    }
-    .trust-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.8125rem;
-      font-weight: 500;
-      background-color: #fdf2f4;
-      color: #80142b;
-      border: 1px solid #f9d8de;
-    }
-  </style>
+  <!-- Fonts + design system -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/site.css">
+  <script>document.documentElement.classList.add('js');</script>
 
   <!-- Schema.org JSON-LD Structured Data Block -->
   {% if schema_json %}
@@ -94,143 +32,88 @@
   </script>
   {% endif %}
 </head>
-<body class="flex flex-col min-h-screen antialiased selection:bg-maroon-100 selection:text-maroon-900">
+{% set path = request.scope.get('path', '') if request else '' %}
+<body class="{% block body_class %}{% endblock %}">
 
-  <!-- Header / Navigation -->
-  <header class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm backdrop-blur-md bg-white/95">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-20">
-        <!-- Brand Logo & Synapse Emblem -->
-        <a href="/" class="flex items-center space-x-3 group">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-maroon-800 to-maroon-700 flex items-center justify-center text-white font-bold shadow-md shadow-maroon-900/10 group-hover:scale-105 transition-transform">
-            <svg class="w-6 h-6 text-softpink-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-xl font-bold tracking-tight text-maroon-900 leading-none">BELVO SYNAPSE</span>
-            <span class="text-xs font-semibold text-stone-500 tracking-wider uppercase mt-1">Belvo Ventures Group Knowledge Base</span>
-          </div>
-        </a>
-
-        <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 text-sm font-medium text-stone-700">
-          <a href="/" class="px-3 py-2 rounded-lg hover:text-maroon-800 hover:bg-maroon-50 transition">Home</a>
-          <a href="/about" class="px-3 py-2 rounded-lg hover:text-maroon-800 hover:bg-maroon-50 transition">About</a>
-          <a href="/ventures" class="px-3 py-2 rounded-lg hover:text-maroon-800 hover:bg-maroon-50 transition">Ventures (9)</a>
-          <a href="/leadership" class="px-3 py-2 rounded-lg hover:text-maroon-800 hover:bg-maroon-50 transition">Leadership</a>
-          <a href="/achievements" class="px-3 py-2 rounded-lg hover:text-maroon-800 hover:bg-maroon-50 transition">Achievements</a>
-          <a href="/products-services" class="px-3 py-2 rounded-lg hover:text-maroon-800 hover:bg-maroon-50 transition">Products & Services</a>
-          <a href="/faq" class="px-3 py-2 rounded-lg hover:text-maroon-800 hover:bg-maroon-50 transition">FAQ</a>
-          <a href="/contact" class="px-3 py-2 rounded-lg hover:text-maroon-800 hover:bg-maroon-50 transition">Contact</a>
-        </nav>
-
-        <!-- Right Side Actions: Admin Link -->
-        <div class="flex items-center space-x-3">
-          <a href="/admin/login" class="inline-flex items-center text-xs font-semibold text-maroon-800 bg-softpink-100 hover:bg-softpink-200 px-3.5 py-2 rounded-lg border border-softpink-300 transition shadow-sm">
-            <svg class="w-3.5 h-3.5 mr-1.5 text-maroon-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-            </svg>
-            Admin Panel
-          </a>
-        </div>
-      </div>
+  <header class="site-header">
+    <div class="wrap">
+      <a href="/" class="brand" aria-label="Belvo Ventures Group — home">belvo<sup>®</sup></a>
+      <button class="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false">Menu</button>
+      <nav class="nav" id="site-nav" aria-label="Primary">
+        <a href="/about" {% if path == '/about' %}aria-current="page"{% endif %}>About</a>
+        <a href="/ventures" {% if path.startswith('/ventures') %}aria-current="page"{% endif %}>Ventures (9)</a>
+        <a href="/products-services" {% if path == '/products-services' %}aria-current="page"{% endif %}>Products &amp; Services</a>
+        <a href="/leadership" {% if path == '/leadership' %}aria-current="page"{% endif %}>Leadership</a>
+        <a href="/achievements" {% if path == '/achievements' %}aria-current="page"{% endif %}>Achievements</a>
+        <a href="/faq" {% if path == '/faq' %}aria-current="page"{% endif %}>FAQ</a>
+        <a href="/contact" class="btn">Let’s talk <span class="arrow">→</span></a>
+      </nav>
     </div>
   </header>
 
-  <!-- Page Content -->
-  <main class="flex-grow">
+  <main>
     {% block content %}{% endblock %}
   </main>
 
   <!-- Trust Cue & Last Verified Banner -->
-  <aside class="bg-maroon-900 text-softpink-100 py-4 px-4 border-t border-maroon-800">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs space-y-2 sm:space-y-0">
-      <div class="flex items-center space-x-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span><strong>Canonical Knowledge Repository:</strong> Machine-readable and crawler-verified information for search engines and AI platforms.</span>
-      </div>
-      <div>
-        <span>Last Verified: <time datetime="2026-11-13">13 November 2026</time> · Approved by Hrishikesh (Founder)</span>
-      </div>
+  <aside class="trust">
+    <div class="wrap">
+      <div><span class="dot"></span><strong>Canonical Knowledge Repository:</strong> Machine-readable and crawler-verified information for search engines and AI platforms.</div>
+      <div>Last Verified: <time datetime="2026-11-13">13 November 2026</time> · Approved by Hrishikesh (Founder)</div>
     </div>
   </aside>
 
-  <!-- Footer -->
-  <footer class="bg-stone-900 text-stone-300 pt-12 pb-8 border-t border-stone-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
-        <!-- Col 1: Summary -->
-        <div class="md:col-span-2">
-          <span class="text-xl font-bold text-white tracking-tight">BELVO VENTURES GROUP</span>
-          <p class="mt-3 text-stone-400 text-sm max-w-lg leading-relaxed">
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-brand" aria-hidden="true">belvo<sup>®</sup></div>
+      <div class="foot-grid">
+        <div>
+          <h4>BELVO VENTURES GROUP</h4>
+          <p class="about">
             Belvo Ventures Group is a Mumbai-based group of ventures founded by Hrishikesh in 2022. Its nine ventures work across digital marketing, funding support, interiors, coaching, legal support, CA support, software, hardware solutions and social impact, all under one ecosystem.
           </p>
-          <div class="mt-4 flex flex-wrap gap-2 text-xs text-stone-400 font-medium">
-            <span class="bg-stone-800 px-2.5 py-1 rounded">Founded 14 Feb 2022</span>
-            <span class="bg-stone-800 px-2.5 py-1 rounded">Mumbai, India</span>
-            <span class="bg-stone-800 px-2.5 py-1 rounded">9 Specialized Divisions</span>
-            <span class="bg-stone-800 px-2.5 py-1 rounded">50 Team Members</span>
-            <span class="bg-stone-800 px-2.5 py-1 rounded">1,000+ Interns Trained</span>
+          <div class="chips">
+            <span>Founded 14 Feb 2022</span>
+            <span>Mumbai, India</span>
+            <span>9 Specialized Divisions</span>
+            <span>50 Team Members</span>
+            <span>1,000+ Interns Trained</span>
           </div>
         </div>
 
-        <!-- Col 2: The 9 Divisions -->
         <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-softpink-300 mb-3">The 9 Divisions</h4>
-          <ul class="space-y-1.5 text-sm text-stone-400">
-            <li><a href="/ventures/belvo-digital" class="hover:text-white transition">Belvo Digital</a></li>
-            <li><a href="/ventures/capvanta" class="hover:text-white transition">Capvanta</a></li>
-            <li><a href="/ventures/tatva" class="hover:text-white transition">Tatva</a></li>
-            <li><a href="/ventures/hridayam" class="hover:text-white transition">Hridayam</a></li>
-            <li><a href="/ventures/verdict" class="hover:text-white transition">Verdict</a></li>
-            <li><a href="/ventures/fyndra" class="hover:text-white transition">Fyndra</a></li>
-            <li><a href="/ventures/belqora" class="hover:text-white transition">Belqora</a></li>
-            <li><a href="/ventures/klyro" class="hover:text-white transition">Klyro</a></li>
-            <li><a href="/ventures/sahay" class="hover:text-white transition">Sahay (NGO)</a></li>
+          <h4>The 9 Divisions</h4>
+          <ul>
+            <li><a href="/ventures/belvo-digital">Belvo Digital</a></li>
+            <li><a href="/ventures/capvanta">Capvanta</a></li>
+            <li><a href="/ventures/tatva">Tatva</a></li>
+            <li><a href="/ventures/hridayam">Hridayam</a></li>
+            <li><a href="/ventures/verdict">Verdict</a></li>
+            <li><a href="/ventures/fyndra">Fyndra</a></li>
+            <li><a href="/ventures/belqora">Belqora</a></li>
+            <li><a href="/ventures/klyro">Klyro</a></li>
+            <li><a href="/ventures/sahay">Sahay (NGO)</a></li>
           </ul>
         </div>
 
-        <!-- Col 3: Technical & Crawler Endpoints -->
         <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-softpink-300 mb-3">AI & Machine Endpoints</h4>
-          <ul class="space-y-2 text-sm text-stone-400">
-            <li>
-              <a href="/llms.txt" class="flex items-center hover:text-white transition">
-                <span class="font-mono text-xs bg-stone-800 px-1.5 py-0.5 rounded mr-2 text-softpink-200">/llms.txt</span>
-                Plain-Text LLM Brief
-              </a>
-            </li>
-            <li>
-              <a href="/sitemap.xml" class="flex items-center hover:text-white transition">
-                <span class="font-mono text-xs bg-stone-800 px-1.5 py-0.5 rounded mr-2 text-softpink-200">/sitemap.xml</span>
-                XML Sitemap
-              </a>
-            </li>
-            <li>
-              <a href="/robots.txt" class="flex items-center hover:text-white transition">
-                <span class="font-mono text-xs bg-stone-800 px-1.5 py-0.5 rounded mr-2 text-softpink-200">/robots.txt</span>
-                AI Crawler Rules
-              </a>
-            </li>
-            <li>
-              <a href="/admin/login" class="flex items-center hover:text-white transition mt-2">
-                <svg class="w-3.5 h-3.5 mr-1.5 text-softpink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
-                Admin Control Center
-              </a>
-            </li>
+          <h4>AI &amp; Machine Endpoints</h4>
+          <ul>
+            <li><a href="/llms.txt"><code class="mono">/llms.txt</code>Plain-Text LLM Brief</a></li>
+            <li><a href="/sitemap.xml"><code class="mono">/sitemap.xml</code>XML Sitemap</a></li>
+            <li><a href="/robots.txt"><code class="mono">/robots.txt</code>AI Crawler Rules</a></li>
+            <li><a href="/admin/login">Admin Control Center</a></li>
           </ul>
         </div>
       </div>
 
-      <div class="pt-6 border-t border-stone-800 flex flex-col sm:flex-row justify-between items-center text-xs text-stone-500">
+      <div class="foot-base">
         <p>© 2026 Belvo Ventures Group. All 9 ventures are divisions of one company. Headquartered in Mumbai, India.</p>
-        <p class="mt-2 sm:mt-0 font-medium text-stone-400">Innovate · Build · Grow</p>
+        <p>Innovate · Build · Grow</p>
       </div>
     </div>
   </footer>
 
+  <script src="/static/js/site.js" defer></script>
 </body>
 </html>

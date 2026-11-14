@@ -1,101 +1,92 @@
 {% extends "base.html" %}
+{% from "partials/page_hero.html" import page_hero %}
 
 {% block content %}
-<div class="bg-gradient-to-b from-maroon-900 to-maroon-800 text-white py-14">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <nav class="flex text-xs text-softpink-200 mb-4" aria-label="Breadcrumb">
-      <ol class="inline-flex items-center space-x-1">
-        <li><a href="/" class="hover:text-white">Home</a></li>
-        <li><span class="mx-2">/</span></li>
-        <li class="text-white font-semibold">About Belvo</li>
-      </ol>
-    </nav>
-    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">About Belvo Ventures Group</h1>
-    <p class="mt-4 text-softpink-100 text-lg leading-relaxed">
-      Founded on 14 February 2022 in Mumbai, India — built by a founder, for the founders.
-    </p>
-  </div>
-</div>
+{% if company is defined %}
+{{ page_hero("About Belvo", "01 / The Group", "About Belvo Ventures Group", "Founded on 14 February 2022 in Mumbai, India — built by a founder, for the founders.") }}
 
-<article class="py-16 bg-cream-50">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    
-    <!-- Origin Story Card (Section 3.2 Approved Text) -->
-    <div class="bg-white rounded-3xl p-8 sm:p-12 border border-stone-200 shadow-sm mb-12">
-      <div class="flex items-center justify-between pb-4 border-b border-stone-100 mb-6">
-        <span class="text-xs uppercase tracking-widest font-bold text-maroon-700">Origin & Evolution</span>
-        <span class="trust-badge">Verified Company History</span>
+<article class="section">
+  <div class="wrap">
+
+    <!-- Origin Story (Approved Text) -->
+    <div class="split reveal" style="margin-bottom:clamp(64px,9vw,120px)">
+      <div>
+        <span class="label">Origin &amp; Evolution</span>
+        <h2 class="h2" style="margin-top:18px">Our beginning in Mumbai.</h2>
+        <p style="margin-top:24px"><span class="pill ok">Verified Company History</span></p>
       </div>
-      <h2 class="text-2xl font-bold text-stone-900 mb-4">Our Beginning in Mumbai</h2>
-      <p class="text-stone-700 leading-relaxed mb-6">
-        Belvo Ventures Group began on <strong>14 February 2022 in Mumbai</strong>. It started as freelance work, and as founder Hrishikesh built a network of founders, professionals and clients, it grew into a group of ventures.
-      </p>
-      <p class="text-stone-700 leading-relaxed">
-        Each venture is a division of Belvo that covers a specific business need, from marketing and funding to software and social impact. Our goal is building a stronger ecosystem for founders.
-      </p>
-
-      <!-- Key Dates & Locations Strip -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-6 border-t border-stone-100">
-        <div class="bg-cream-100 p-4 rounded-xl">
-          <span class="text-xs text-stone-500 uppercase tracking-wide block">Starting Date</span>
-          <span class="text-base font-bold text-maroon-900">14 February 2022</span>
-        </div>
-        <div class="bg-cream-100 p-4 rounded-xl">
-          <span class="text-xs text-stone-500 uppercase tracking-wide block">Location</span>
-          <span class="text-base font-bold text-maroon-900">Mumbai, India</span>
-        </div>
-        <div class="bg-cream-100 p-4 rounded-xl">
-          <span class="text-xs text-stone-500 uppercase tracking-wide block">Structure</span>
-          <span class="text-base font-bold text-maroon-900">1 Company, 9 Divisions</span>
-        </div>
+      <div>
+        <p class="lead">
+          Belvo Ventures Group began on <strong>14 February 2022 in Mumbai</strong>. It started as freelance work, and as founder Hrishikesh built a network of founders, professionals and clients, it grew into a group of ventures.
+        </p>
+        <p class="muted">
+          Each venture is a division of Belvo that covers a specific business need, from marketing and funding to software and social impact. Our goal is building a stronger ecosystem for founders.
+        </p>
       </div>
     </div>
 
-    <!-- Structured Internship Programme (Section 3.2 Approved Text) -->
-    <div class="bg-white rounded-3xl p-8 sm:p-12 border border-stone-200 shadow-sm mb-12">
-      <div class="flex items-center justify-between pb-4 border-b border-stone-100 mb-6">
-        <span class="text-xs uppercase tracking-widest font-bold text-maroon-700">Talent & Skill Development</span>
-        <span class="trust-badge">National Education Initiative</span>
-      </div>
-      <h2 class="text-2xl font-bold text-stone-900 mb-4">Internship Programme</h2>
-      <p class="text-stone-700 leading-relaxed mb-6">
-        Belvo runs structured internship batches for learners from across India. More than <strong>500 interns are currently part of our ongoing cohorts</strong>, with new batches opening soon, and <strong>over 1,000 interns have been trained so far</strong>.
-      </p>
+    <div class="stats reveal" style="grid-template-columns:repeat(3,1fr);margin-bottom:clamp(64px,9vw,120px)">
+      <div class="stat"><b style="font-size:clamp(24px,2.8vw,40px)">14 February 2022</b><span>Starting Date</span></div>
+      <div class="stat"><b style="font-size:clamp(24px,2.8vw,40px)">Mumbai, India</b><span>Location</span></div>
+      <div class="stat"><b style="font-size:clamp(24px,2.8vw,40px)">1 Company, 9 Divisions</b><span>Structure</span></div>
+    </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-maroon-50/50 p-6 rounded-2xl border border-maroon-100">
-        <div class="flex items-start space-x-3">
-          <div class="w-8 h-8 rounded-lg bg-maroon-800 text-white flex items-center justify-center font-bold text-sm shrink-0">✓</div>
-          <div>
-            <h4 class="font-bold text-stone-900 text-sm">500+ Active Interns</h4>
-            <p class="text-xs text-stone-600 mt-1">Currently enrolled across technical, design, marketing, and business cohorts.</p>
-          </div>
+    <!-- Internship Programme (Approved Text) -->
+    <div class="card ink reveal" style="margin-bottom:20px">
+      <div class="split">
+        <div>
+          <span class="label">Talent &amp; Skill Development</span>
+          <h2 class="h2" style="font-size:clamp(32px,4vw,56px)">Internship Programme</h2>
+          <p style="margin-top:20px"><span class="pill">National Education Initiative</span></p>
         </div>
-        <div class="flex items-start space-x-3">
-          <div class="w-8 h-8 rounded-lg bg-maroon-800 text-white flex items-center justify-center font-bold text-sm shrink-0">✓</div>
-          <div>
-            <h4 class="font-bold text-stone-900 text-sm">1,000+ Alumni Trained</h4>
-            <p class="text-xs text-stone-600 mt-1">Graduates equipped with real-world venture operational experience across India.</p>
+        <div>
+          <p style="font-size:19px">
+            Belvo runs structured internship batches for learners from across India. More than <strong>500 interns are currently part of our ongoing cohorts</strong>, with new batches opening soon, and <strong>over 1,000 interns have been trained so far</strong>.
+          </p>
+          <div class="cards c2" style="margin-top:32px;gap:24px">
+            <div>
+              <div class="big-num">500+</div>
+              <p style="margin-top:8px;font-size:14px"><strong>Active Interns</strong><br>Currently enrolled across technical, design, marketing, and business cohorts.</p>
+            </div>
+            <div>
+              <div class="big-num">1,000+</div>
+              <p style="margin-top:8px;font-size:14px"><strong>Alumni Trained</strong><br>Graduates equipped with real-world venture operational experience across India.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Mission & Vision -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="bg-white rounded-3xl p-8 border border-stone-200">
-        <h3 class="text-lg font-bold text-maroon-900 mb-2">Our Mission</h3>
-        <p class="text-sm text-stone-700 leading-relaxed">
-          {{ company.mission or "Empowering founders, professionals, and learners with dedicated multi-disciplinary ecosystem support under one trusted roof." }}
+    <div class="cards c2">
+      <div class="card tilt reveal" data-tilt>
+        <span class="label">02 / Our Mission</span>
+        <p style="font-size:20px;color:var(--ink)">
+          {{ (company.mission if company and company.mission else None) or "Empowering founders, professionals, and learners with dedicated multi-disciplinary ecosystem support under one trusted roof." }}
         </p>
       </div>
-      <div class="bg-white rounded-3xl p-8 border border-stone-200">
-        <h3 class="text-lg font-bold text-maroon-900 mb-2">Our Vision</h3>
-        <p class="text-sm text-stone-700 leading-relaxed">
-          {{ company.vision or "To build India's most cohesive founder-first venture ecosystem across technology, services, and social impact." }}
+      <div class="card tilt reveal" data-tilt>
+        <span class="label">03 / Our Vision</span>
+        <p style="font-size:20px;color:var(--ink)">
+          {{ (company.vision if company and company.vision else None) or "To build India's most cohesive founder-first venture ecosystem across technology, services, and social impact." }}
         </p>
       </div>
     </div>
 
   </div>
 </article>
+
+{% else %}
+<!-- Not-found view (the app's 404 handler renders this template without company data) -->
+{{ page_hero("Not found", "Error 404", "This page doesn’t exist.", "The requested verified record was not found. It may have moved, or the address may be mistyped — Belvo Ventures Group is headquartered in Mumbai, India.") }}
+<section class="section">
+  <div class="wrap">
+    <div class="meta-row">
+      <a href="/" class="btn btn-dark">Back to home <span class="arrow">→</span></a>
+      <a href="/ventures" class="btn btn-ghost-dark">Explore the 9 divisions</a>
+      <a href="/contact" class="btn btn-ghost-dark">Contact</a>
+    </div>
+  </div>
+</section>
+{% endif %}
 {% endblock %}
