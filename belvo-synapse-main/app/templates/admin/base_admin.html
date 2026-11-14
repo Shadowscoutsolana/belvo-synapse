@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title or "Admin Control Center | Belvo Synapse" }}</title>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Re-themed to the new Belvo design system: the legacy "maroon" scale now maps to ink + vermilion accent.
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            maroon: {
+              50: '#fff5f0', 100: '#ffe6dc', 200: '#ffcdb8', 300: '#ffa98a', 400: '#ff8458',
+              500: '#ff5a2c', 600: '#e24a1e', 700: '#2a2a2d', 800: '#17171a', 900: '#0c0c0d', 950: '#000000'
+            }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Inter Tight', 'Inter', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; background: #f3f0ea; }
+    h1, h2, h3 { font-family: 'Inter Tight', 'Inter', sans-serif; letter-spacing: -0.03em; }
+    ::selection { background: #ff5a2c; color: #0c0c0d; }
+  </style>
+</head>
+<body class="text-stone-900 min-h-screen flex flex-col font-sans">
+  
+  <!-- Admin Header -->
+  <header class="bg-maroon-900 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+      <div class="flex items-center space-x-3">
+        <a href="/admin/dashboard" class="flex items-center space-x-2 font-bold tracking-tight text-white text-lg">
+          <span class="font-display font-bold text-2xl tracking-tighter leading-none">belvo<sup class="text-[10px] align-top">®</sup></span>
+          <span class="text-xs font-semibold uppercase tracking-[0.16em] text-stone-400">Synapse Admin</span>
+        </a>
+        <span class="bg-maroon-700 text-stone-300 text-xs px-2.5 py-0.5 rounded-full font-mono">v1.0 Blueprint</span>
+      </div>
+
+      <div class="flex items-center space-x-4 text-xs">
+        <span class="text-stone-400">Role: <strong class="text-white uppercase">{{ current_user.role if current_user else "Admin" }}</strong></span>
+        <a href="/" target="_blank" class="text-stone-400 hover:text-white transition">View Public Site ↗</a>
+        <a href="/admin/logout" class="bg-maroon-500 hover:bg-maroon-400 text-maroon-900 px-4 py-1.5 rounded-full font-semibold transition">Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex flex-col md:flex-row gap-8">
+    
+    <!-- Sidebar Navigation (Blueprint Section 8) -->
+    <aside class="w-full md:w-64 shrink-0">
+      <div class="bg-white rounded-3xl border border-stone-200 p-4 space-y-1">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-stone-400 px-3 block mb-2">Modules</span>
+        
+        <a href="/admin/dashboard" class="flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold hover:bg-stone-50 hover:text-maroon-800 transition">
+          <span>📊</span><span>Overview Dashboard</span>
+        </a>
+        <a href="/admin/company" class="flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold hover:bg-stone-50 hover:text-maroon-800 transition">
+          <span>🏢</span><span>Company Core Facts</span>
+        </a>
+        <a href="/admin/ventures" class="flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold hover:bg-stone-50 hover:text-maroon-800 transition">
+          <span>🚀</span><span>The 9 Ventures</span>
+        </a>
+        <a href="/admin/audit-logs" class="flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-semibold hover:bg-stone-50 hover:text-maroon-800 transition">
+          <span>📜</span><span>Audit History & Diffs</span>
+        </a>
+        
+        <div class="pt-4 border-t border-stone-100 my-2"></div>
+        <span class="text-[10px] font-bold uppercase tracking-wider text-stone-400 px-3 block mb-2">Crawler Diagnostics</span>
+        
+        <a href="/robots.txt" target="_blank" class="flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-mono text-stone-600 hover:bg-stone-50">
+          <span>/robots.txt</span><span>↗</span>
+        </a>
+        <a href="/sitemap.xml" target="_blank" class="flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-mono text-stone-600 hover:bg-stone-50">
+          <span>/sitemap.xml</span><span>↗</span>
+        </a>
+        <a href="/llms.txt" target="_blank" class="flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-mono text-stone-600 hover:bg-stone-50">
+          <span>/llms.txt</span><span>↗</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Admin Workspace -->
+    <section class="flex-grow w-full">
+      {% block admin_content %}{% endblock %}
+    </section>
+
+  </div>
+</body>
+</html>

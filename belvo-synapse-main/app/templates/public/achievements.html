@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "partials/page_hero.html" import page_hero %}
+
+{% block content %}
+{{ page_hero("Achievements", "04 / Milestones", "Milestones & Achievements", "Dated timeline of documented progress and operational milestones for Belvo Ventures Group, founded in Mumbai.") }}
+
+<section class="section">
+  <div class="wrap">
+    <div class="timeline">
+
+      <!-- Milestone 1: 1,000+ Interns -->
+      <article class="tl reveal">
+        <div><div class="tl-year">2026</div><div class="tl-when">Late 2026</div></div>
+        <div>
+          <span class="label">National Education Milestone</span>
+          <h2>1,000+ Interns Trained Across India</h2>
+          <p>Belvo successfully trained more than 1,000 learners across multiple technology, business, and marketing batches, maintaining active cohort sizes exceeding 500 participants simultaneously.</p>
+        </div>
+      </article>
+
+      <!-- Milestone 2: 9 Divisions Consolidation -->
+      <article class="tl reveal">
+        <div><div class="tl-year">2024</div><div class="tl-when">Mid 2024</div></div>
+        <div>
+          <span class="label">Corporate Structuring</span>
+          <h2>Expansion to Nine Specialized Operating Divisions</h2>
+          <p>Formalized the multi-disciplinary umbrella consolidating marketing (Belvo Digital), funding (Capvanta), design (Tatva), coaching (Hridayam), legal (Verdict), finance (Fyndra), software (Belqora), hardware (Klyro), and social impact (Sahay).</p>
+        </div>
+      </article>
+
+      <!-- Milestone 3: Founding -->
+      <article class="tl reveal">
+        <div><div class="tl-year">2022</div><div class="tl-when">14 February 2022</div></div>
+        <div>
+          <span class="label">Inception</span>
+          <h2>Founding of Belvo Ventures Group in Mumbai</h2>
+          <p>Inception of Belvo in Mumbai by founder Hrishikesh, starting with freelance advisory and growing into a structured network of founders, professionals, and clients.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

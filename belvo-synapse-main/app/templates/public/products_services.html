@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% from "partials/page_hero.html" import page_hero %}
+
+{% block content %}
+{{ page_hero("Products & Services", "05 / Capabilities", "Products & Services Catalog", "Organized directory of confirmed capabilities and offerings across the 9 specialized divisions of Belvo Ventures Group in Mumbai.") }}
+
+<section class="section">
+  <div class="wrap">
+    <div class="cards c3">
+      {% for v in ventures %}
+      <div class="card hover svc reveal">
+        <div>
+          <span class="label">{{ v.sector }}</span>
+          <h2 class="h3">{{ v.name }}</h2>
+          <p style="font-size:15px">{{ v.one_line }}</p>
+
+          {% if v.products_services %}
+          <div style="margin-top:26px;padding-top:22px;border-top:1px solid var(--line)">
+            <span class="label" style="font-size:11px">Confirmed Capabilities</span>
+            {% for ps in v.products_services %}
+            <div style="margin-bottom:14px">
+              <h3 style="font-family:var(--font-body);font-size:15px;letter-spacing:0;font-weight:600">{{ ps.name }}</h3>
+              {% if ps.features %}
+              <ul>
+                {% for f in ps.features %}<li>{{ f }}</li>{% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="svc-foot">
+          <span>Division of Belvo</span>
+          <a href="/ventures/{{ v.slug }}">View division scope →</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

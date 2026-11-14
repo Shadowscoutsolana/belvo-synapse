@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% from "partials/page_hero.html" import page_hero %}
+
+{% block content %}
+{{ page_hero("Leadership", "03 / People", "Executive Leadership", "Verified profiles of the founding leadership guiding Belvo Ventures Group.") }}
+
+<section class="section">
+  <div class="wrap">
+
+    <!-- Founder Card (Approved Text) -->
+    <div class="card soft tilt reveal" data-tilt>
+      <div class="split" style="grid-template-columns:auto 1fr;gap:clamp(24px,4vw,56px)">
+        <div class="avatar" style="width:clamp(110px,14vw,190px);height:clamp(110px,14vw,190px);font-size:clamp(48px,6vw,84px)" role="img" aria-label="Hrishikesh, Founder of Belvo Ventures Group">H</div>
+        <div>
+          <div class="meta-row" style="justify-content:space-between;margin-bottom:10px">
+            <h2 class="h2" style="font-size:clamp(36px,4.4vw,64px)">Hrishikesh</h2>
+            <span class="pill ok">Verified Founder</span>
+          </div>
+          <p class="label" style="color:var(--ink);margin-bottom:26px">Founder, Belvo Ventures Group</p>
+
+          <p style="color:var(--ink);font-size:18px">
+            Hrishikesh is the Founder of Belvo Ventures Group. Beginning with freelance advisory in February 2022 in Mumbai, he recognized the fragmented landscape early-stage founders face when sourcing marketing, funding, software, CA, and legal support.
+          </p>
+          <p style="margin-top:16px;font-size:18px">
+            Under his direction, Belvo was structured into 9 dedicated divisions under one unified ecosystem, accompanied by a nationwide internship initiative that has trained over 1,000 learners to date.
+          </p>
+
+          <div class="meta-row" style="justify-content:space-between;margin-top:32px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)">
+            <span>Location: Mumbai, India</span>
+            <span>Last Verified: 13 November 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Future Leaders Note -->
+    <p class="muted" style="margin-top:28px;font-size:14px;text-align:center">
+      Additional leadership profiles and division heads will be published here upon verification.
+    </p>
+  </div>
+</section>
+{% endblock %}

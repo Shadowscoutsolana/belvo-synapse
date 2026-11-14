@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block body_class %}home{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero" aria-labelledby="hero-title">
+  <canvas aria-hidden="true"></canvas>
+  <div class="hero-bottom">
+    <div class="wrap hero-inner">
+      <span class="eyebrow">Innovate · Build · Grow</span>
+      <h1 class="h1" id="hero-title">Nine ventures. One ecosystem.</h1>
+
+      <!-- Canonical Home Definition (Strictly consistent with blueprint) -->
+      <p class="lead">
+        Belvo Ventures Group is a Mumbai-based group of ventures founded by Hrishikesh in 2022. Its nine ventures work across digital marketing, funding support, interiors, coaching, legal support, CA support, software, hardware solutions and social impact, all under one ecosystem.
+      </p>
+      <p class="label" style="margin-top:18px;color:#cfccc4">By a founder, for the founders</p>
+
+      <div class="hero-cta">
+        <a href="/ventures" class="btn btn-light">Explore the 9 Divisions <span class="arrow">→</span></a>
+        <a href="/about" class="btn btn-ghost">Our Story &amp; Internship Cohorts</a>
+      </div>
+    </div>
+    <div class="wrap"><div class="hero-hint"><span>Move your cursor · Click to recompose</span><span>BELVO VENTURES GROUP · Mumbai</span></div></div>
+  </div>
+</section>
+
+<!-- Key facts strip -->
+<section class="section tight" aria-label="Key facts">
+  <div class="wrap">
+    <div class="stats reveal">
+      <div class="stat"><b>2022</b><span>Founded (14 Feb)</span></div>
+      <div class="stat"><b>Mumbai</b><span>Headquarters (India)</span></div>
+      <div class="stat"><b>9</b><span>Specialized Divisions</span></div>
+      <div class="stat"><b>50</b><span>Team Members</span></div>
+      <div class="stat"><b>1,000+</b><span>Interns Trained</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Division marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    {% for _ in range(2) %}
+    <div class="marquee-group">
+      {% for v in ventures %}<span>{{ v.name }}</span><i>✦</i>{% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- 01 / The group -->
+<section class="section">
+  <div class="wrap split">
+    <div class="section-head reveal" style="margin:0">
+      <span class="label">01 / The Group</span>
+      <h2 class="h2">Started as freelance work. Grew into a group.</h2>
+    </div>
+    <div class="reveal">
+      <p class="lead">
+        Belvo Ventures Group began on 14 February 2022 in Mumbai. It started as freelance work, and as founder Hrishikesh built a network of founders, professionals and clients, it grew into a group of ventures.
+      </p>
+      <p class="muted">
+        Each venture is a division of Belvo that covers a specific business need, from marketing and funding to software and social impact. Our goal is building a stronger ecosystem for founders.
+      </p>
+      <p style="margin-top:28px"><a href="/about" class="link-arrow">Read the full story <span class="arrow">→</span></a></p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 / Divisions -->
+<section class="section dark">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="label">02 / Unified Corporate Ecosystem</span>
+      <h2 class="h2">Nine divisions.<br>One purpose.</h2>
+      <p class="lead muted">Each venture is a specialized division of Belvo Ventures Group operating under one entity, addressing specific business requirements for founders and enterprises.</p>
+    </div>
+
+    <div class="rows reveal">
+      {% for v in ventures %}
+      <a class="row" href="/ventures/{{ v.slug }}">
+        <span class="row-num">0{{ v.display_order }}</span>
+        <span class="row-title">{{ v.name }}<small>{{ v.sector }}</small></span>
+        <span class="row-desc">{{ v.one_line }}</span>
+        <span class="row-go arrow">→</span>
+      </a>
+      {% endfor %}
+    </div>
+
+    <p style="margin-top:36px"><a href="/ventures" class="link-arrow">View full ecosystem chart <span class="arrow">→</span></a></p>
+  </div>
+</section>
+
+<!-- 03 / Founder & internships -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="label">03 / People &amp; Programmes</span>
+      <h2 class="h2">Built by a founder.<br>Powered by learners.</h2>
+    </div>
+
+    <div class="cards c2">
+      <div class="card soft tilt reveal" data-tilt>
+        <div class="meta-row" style="gap:20px;margin-bottom:28px">
+          <div class="avatar" aria-hidden="true">H</div>
+          <div>
+            <h3 class="h3">Hrishikesh</h3>
+            <p style="margin-top:6px;color:var(--ink);font-weight:600">Founder, Belvo Ventures Group</p>
+            <p style="font-size:14px">Mumbai, India</p>
+          </div>
+        </div>
+        <p style="margin-bottom:28px">
+          Belvo Ventures Group began on 14 February 2022 in Mumbai. It started as freelance work, and as founder Hrishikesh built a network of founders, professionals and clients, it grew into a multi-venture group covering marketing, funding, software, interiors, and social impact.
+        </p>
+        <div class="meta-row">
+          <span class="pill ok">Verified Founder Profile</span>
+          <a href="/leadership" class="link-arrow">Read leadership profile <span class="arrow">→</span></a>
+        </div>
+      </div>
+
+      <div class="card ink tilt reveal" data-tilt>
+        <span class="label">Empowerment &amp; Education</span>
+        <h3 class="h3">Structured Internship Batches</h3>
+        <p>
+          Belvo runs structured internship batches for learners from across India. More than 500 interns are currently part of our ongoing cohorts, with new batches opening soon, and over 1,000 interns have been trained so far.
+        </p>
+        <div class="cards c2" style="margin-top:36px;gap:24px">
+          <div><div class="big-num">500+</div><p style="font-size:13px;margin-top:8px">Active Cohort Learners</p></div>
+          <div><div class="big-num">1,000+</div><p style="font-size:13px;margin-top:8px">Total Trained Alumni</p></div>
+        </div>
+        <p style="margin-top:32px"><a href="/about" class="btn btn-light">Learn more about batches <span class="arrow">→</span></a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ highlights -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="split">
+      <div class="section-head reveal" style="margin:0">
+        <span class="label">04 / Authoritative Answers</span>
+        <h2 class="h2">Frequently asked questions.</h2>
+        <p class="muted">Factual answers referenced directly in Schema.org FAQPage data.</p>
+        <p><a href="/faq" class="link-arrow">View all questions &amp; answers <span class="arrow">→</span></a></p>
+      </div>
+      <div class="faq reveal">
+        {% for faq in faqs[:5] %}
+        <details {% if loop.first %}open{% endif %}>
+          <summary><span>{{ faq.question }}</span></summary>
+          <div class="ans">{{ faq.answer }}</div>
+        </details>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <span class="eyebrow">05 / Your next chapter</span>
+    <h2 class="h2">Have something bold in mind?</h2>
+    <p>Let’s bring it into reality. Start a conversation with Belvo.</p>
+    <a href="/contact" class="btn btn-dark">Get in touch with Belvo <span class="arrow">→</span></a>
+  </div>
+</section>
+{% endblock %}
