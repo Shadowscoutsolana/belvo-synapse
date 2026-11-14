@@ -1,0 +1,58 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="space-y-6">
+  <div class="flex items-center justify-between bg-white p-6 rounded-2xl border border-stone-200 shadow-sm">
+    <div>
+      <h1 class="text-2xl font-extrabold text-stone-900">Audit History & Version Control</h1>
+      <p class="text-xs text-stone-500 mt-1">Every modification to company facts, ventures, and SEO definitions is immutably logged.</p>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-sm">
+    {% if logs %}
+    <div class="divide-y divide-stone-100">
+      {% for l in logs %}
+      <div class="p-5 hover:bg-stone-50 transition">
+        <div class="flex items-center justify-between text-xs mb-2">
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-stone-900">{{ l.user.name if l.user else "System / Admin" }}</span>
+            <span class="text-stone-400">·</span>
+            <span class="font-mono text-stone-500">{{ l.table_name }} #{{ l.record_id }}</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase {% if l.action == 'CREATE' %}bg-emerald-50 text-emerald-700{% elif l.action == 'UPDATE' %}bg-blue-50 text-blue-700{% else %}bg-purple-50 text-purple-700{% endif %}">
+              {{ l.action }}
+            </span>
+            <time class="text-stone-400 font-mono text-[11px]">{{ l.created_at.strftime('%Y-%m-%d %H:%M') if l.created_at else '' }}</time>
+          </div>
+        </div>
+
+        {% if l.before_json or l.after_json %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3 text-xs">
+          {% if l.before_json %}
+          <div class="p-3 bg-red-50/50 border border-red-100 rounded-xl overflow-x-auto">
+            <span class="block text-[10px] uppercase font-bold text-red-800 mb-1">Before State</span>
+            <pre class="font-mono text-[11px] text-stone-700 whitespace-pre-wrap">{{ l.before_json | tojson(indent=2) }}</pre>
+          </div>
+          {% endif %}
+          
+          {% if l.after_json %}
+          <div class="p-3 bg-emerald-50/50 border border-emerald-100 rounded-xl overflow-x-auto">
+            <span class="block text-[10px] uppercase font-bold text-emerald-800 mb-1">After State</span>
+            <pre class="font-mono text-[11px] text-stone-700 whitespace-pre-wrap">{{ l.after_json | tojson(indent=2) }}</pre>
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="p-12 text-center text-stone-400 text-sm">
+      No audit logs recorded yet. Updates will appear here in real-time.
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
