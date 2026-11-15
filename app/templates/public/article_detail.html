@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/insights.css">
+
+<article class="insights-page">
+
+  <!-- Breadcrumbs & Header -->
+  <header class="page-hero" style="background:var(--ink-2);border-bottom:1px solid var(--line-d);padding:clamp(60px,7vw,90px) 0 clamp(40px,5vw,60px)">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/insights">Insights</a></li>
+          <li class="current" aria-current="page">{{ article.category }}</li>
+        </ol>
+      </nav>
+
+      <span class="pill" style="border-color:var(--purple-border);color:var(--purple-light);margin-bottom:18px">
+        {{ article.category }}
+      </span>
+
+      <h1 class="h1" style="font-size:clamp(36px,5vw,72px);margin:16px 0 24px;line-height:1.05;max-width:22ch">
+        {{ article.title }}
+      </h1>
+
+      <p class="lead" style="color:#d6d3cb;max-width:58ch;margin-bottom:32px">
+        {{ article.summary }}
+      </p>
+
+      <!-- Author Byline Bar -->
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px;padding-top:24px;border-top:1px solid var(--line-d)">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="author-avatar-mini" style="width:44px;height:44px">
+            <img src="/static/img/founder.jpg" alt="{{ article.author }}" loading="lazy">
+          </div>
+          <div>
+            <b style="display:block;color:#fff;font-size:15px">{{ article.author }}</b>
+            <span style="font-size:12px;color:var(--muted-d)">{{ article.author_role }} · Belvo Ventures Group</span>
+          </div>
+        </div>
+
+        <div class="meta-row" style="font-size:13px;color:var(--muted-d)">
+          <span>{{ article.date }}</span>
+          <span>✦</span>
+          <span>{{ article.read_time }}</span>
+          <span>✦</span>
+          <button type="button" class="share-action-btn" data-share-trigger data-share-url="{{ canonical_url }}" data-share-title="{{ article.title }}" aria-label="Share article">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+            <span>Share Essay</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Article Body -->
+  <section class="section" style="background:var(--ink);color:var(--paper);padding:clamp(56px,7vw,96px) 0">
+    <div class="wrap" style="max-width:860px">
+
+      <!-- Executive Key Takeaways Box -->
+      {% if article.takeaways %}
+      <div style="background:rgba(22,22,25,0.85);border:1px solid var(--purple-border);border-radius:24px;padding:clamp(24px,4vw,36px);margin-bottom:clamp(36px,5vw,56px)">
+        <span class="label" style="color:var(--purple-light);display:block;margin-bottom:12px">Executive Takeaways</span>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;font-size:16px;color:#e2dfd7">
+          {% for t in article.takeaways %}
+          <li style="display:flex;gap:12px;align-items:flex-start">
+            <span style="color:var(--accent);font-size:18px;line-height:1.2">✦</span>
+            <span>{{ t }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <!-- Content Blocks -->
+      <div class="article-content" style="font-size:clamp(17px,1.25vw,19px);line-height:1.75;color:#d6d3cb;display:flex;flex-direction:column;gap:26px">
+        {% for block in article.content %}
+          {% if block.type == "paragraph" %}
+            <p>{{ block.text }}</p>
+          {% elif block.type == "heading" %}
+            <h2 class="h2" style="font-size:clamp(26px,3vw,38px);color:#ffffff;margin-top:28px;margin-bottom:4px;line-height:1.15">
+              {{ block.text }}
+            </h2>
+          {% elif block.type == "quote" %}
+            <blockquote style="margin:20px 0;padding:20px 28px;border-left:4px solid var(--purple-primary);background:rgba(138,92,246,0.06);border-radius:0 16px 16px 0;font-family:var(--font-display);font-size:clamp(20px,2vw,24px);color:#ffffff;line-height:1.4">
+              {{ block.text }}
+            </blockquote>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Author Bio Footer Box -->
+      <div style="margin-top:clamp(56px,8vw,80px);padding:clamp(28px,4vw,40px);border-radius:24px;background:var(--ink-2);border:1px solid var(--line-d);display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center">
+        <div class="avatar" style="width:76px;height:76px;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.15);padding:0">
+          <img src="/static/img/founder.jpg" alt="{{ article.author }}" style="width:100%;height:100%;object-fit:cover;object-position:center 20%">
+        </div>
+        <div>
+          <span class="label" style="color:var(--accent)">About The Author</span>
+          <h3 style="font-family:var(--font-display);font-size:22px;color:#fff;margin:6px 0 8px">{{ article.author }}</h3>
+          <p style="font-size:14px;color:var(--muted-d);line-height:1.55">
+            {{ article.author_role }} at Belvo Ventures Group. Directing group strategy, scalable software development, and brand enablement from Mumbai, India.
+          </p>
+          <div style="margin-top:14px;display:flex;gap:12px">
+            <a href="https://www.linkedin.com/in/hrishikesh-mishra-7865a13a7/" target="_blank" rel="noopener noreferrer" class="link-arrow" style="font-size:13px;color:var(--purple-light)">
+              Connect on LinkedIn ↗
+            </a>
+            <a href="/insights" class="link-arrow" style="font-size:13px;color:var(--paper)">
+              All Insights Essays →
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Related Content -->
+  {% if related_articles %}
+  <section class="section dark" style="border-top:1px solid var(--line-d)">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label" style="color:var(--purple-light)">Related Perspectives</span>
+        <h2 class="h2">Continue reading.</h2>
+      </div>
+
+      <div class="cards c3">
+        {% for rel in related_articles %}
+        <a href="/insights/{{ rel.slug }}" class="float-3d-card reveal-3d floating" data-float="{{ (loop.index % 3) + 1 }}" style="display:flex;flex-direction:column;justify-content:space-between;text-decoration:none">
+          <div class="float-3d-shine"></div>
+          <div>
+            <span class="pill" style="border-color:var(--purple-border);color:var(--purple-light);margin-bottom:12px">{{ rel.category }}</span>
+            <h4 style="font-size:19px;margin-bottom:8px;line-height:1.2;color:#ffffff !important">{{ rel.title }}</h4>
+            <p style="font-size:13px;color:#d6d3cb !important;line-height:1.5">{{ rel.summary }}</p>
+          </div>
+          <div style="margin-top:20px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;font-size:12px;color:var(--muted-d)">
+            <span>{{ rel.read_time }}</span>
+            <span style="color:var(--purple-light);font-weight:600">Read Article →</span>
+          </div>
+          <div class="float-3d-glow"></div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Final CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <span class="eyebrow" style="color:var(--ink)">Discussion &amp; Strategy</span>
+      <h2 class="h2">Have a vision?<br>Let's build it together.</h2>
+      <p>
+        Whether you are building a startup, growing a business, exploring technology or looking for strategic business support, Belvo is ready to start the conversation.
+      </p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap">
+        <a href="/contact" class="btn btn-dark" style="font-size:16px;padding:18px 36px">LET'S TALK <span class="arrow">→</span></a>
+        <a href="/insights" class="btn btn-ghost-dark" style="font-size:16px;padding:18px 30px">← Back to Insights Hub</a>
+      </div>
+    </div>
+  </section>
+
+</article>
+
+<!-- Interactive Share Modal -->
+<div class="share-modal-backdrop" id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+  <div class="share-modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+      <h4 id="share-modal-title" style="color:#fff;font-size:18px">Share This Insight</h4>
+      <button type="button" id="share-modal-close" style="background:none;border:none;color:#fff;font-size:24px;cursor:pointer">&times;</button>
+    </div>
+    <p style="color:var(--muted-d);font-size:14px">Share this verified perspective across your network or copy the canonical link:</p>
+
+    <div class="share-buttons-grid">
+      <button type="button" class="share-btn" id="share-copy-btn">Copy Link</button>
+      <button type="button" class="share-btn" id="share-li-btn">LinkedIn</button>
+      <button type="button" class="share-btn" id="share-x-btn">Twitter / X</button>
+      <button type="button" class="share-btn" id="share-wa-btn">WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/insights.js" defer></script>
+{% endblock %}

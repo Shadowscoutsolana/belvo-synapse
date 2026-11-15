@@ -185,7 +185,7 @@ def seed_database():
         if db.query(ExternalProfile).count() == 0:
             print("Seeding External Profiles...")
             profiles = [
-                ("LinkedIn", "https://linkedin.com/company/belvoventures"),
+                ("LinkedIn", "https://www.linkedin.com/company/belvo.buzz/posts/"),
                 ("Twitter/X", "https://x.com/belvoventures"),
                 ("Instagram", "https://instagram.com/belvoventures")
             ]

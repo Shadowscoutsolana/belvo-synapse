@@ -10,7 +10,9 @@ from app.routes.public import (
     achievements_page,
     products_services_page,
     faq_page,
-    contact_page
+    contact_page,
+    insights_page,
+    insight_article_detail
 )
 from app.routes.technical import robots_txt, sitemap_xml, llms_txt
 from app.services.consistency import ConsistencyValidator
@@ -66,6 +68,7 @@ def test_all_public_pages_render(db):
         ("/products-services", lambda req: products_services_page(req, db)),
         ("/faq", lambda req: faq_page(req, db)),
         ("/contact", lambda req: contact_page(req, db)),
+        ("/insights", lambda req: insights_page(req, db)),
     ]
     for path, handler in pages:
         req = make_request(path)
@@ -175,3 +178,77 @@ def test_admin_flow_and_audit_log(db):
     )
     assert resp_edit.status_code == 200
     assert db.query(AuditLog).count() > initial_log_count
+
+def test_insights_master_page_structure(db):
+    req = make_request("/insights")
+    resp = insights_page(req, db)
+    assert resp.status_code == 200
+    html = resp.body.decode("utf-8")
+
+    # Brand identity & philosophy
+    assert "Belvo Ventures Group" in html
+    assert "Mumbai" in html
+    assert "Bombay" not in html
+    assert "2022" in html
+    assert "Innovate · Build · Grow" in html
+    assert "By a Founder, For the Founders" in html or "By a founder, for the founders" in html
+    assert "You be the mind. We will be your backbone." in html
+
+    # Exactly 9 ventures with official spelling
+    nine_ventures = [
+        "CAPVANTA",
+        "VERDICT",
+        "KLYRO",
+        "FYNDRA",
+        "TATTVA",
+        "BELVO DIGITAL",
+        "HRIDAYAM",
+        "SAHAYA",
+        "BELQORA"
+    ]
+    for v in nine_ventures:
+        assert v in html, f"Venture {v} missing in Insights page"
+
+    # Belqora 12 categories
+    belqora_cats = [
+        "Healthcare & Clinics",
+        "Food, Café & Hospitality",
+        "Beauty, Fitness & Wellness",
+        "Education & Institutions",
+        "Retail & Commercial",
+        "Professional Services",
+        "Enterprise Business",
+        "Marketing & E-commerce",
+        "AI & Intelligence",
+        "Cybersecurity & Infrastructure",
+        "Education & Productivity",
+        "Advanced Business Platforms"
+    ]
+    for cat in belqora_cats:
+        escaped_cat = cat.replace("&", "&amp;")
+        assert (cat in html or escaped_cat in html), f"Belqora category {cat} missing in Insights page"
+
+    # Founder name and leadership
+    assert "Hrishikesh Mishra" in html
+    assert ("Co-Founder & Chief Executive Officer" in html or "Co-Founder &amp; Chief Executive Officer" in html)
+    assert "Software Engineering" in html
+    assert "iOS Development" in html
+
+    # Verified metrics
+    assert "1,000+" in html
+    assert "500+" in html
+    assert "50" in html
+    assert "100+" in html
+    assert "₹10L+" in html or "10 lakh" in html.lower()
+
+def test_insight_article_detail_page(db):
+    req = make_request("/insights/why-i-started-belvo-integrated-founder-ecosystem")
+    resp = insight_article_detail("why-i-started-belvo-integrated-founder-ecosystem", req, db)
+    assert resp.status_code == 200
+    html = resp.body.decode("utf-8")
+
+    assert "Why I Started Belvo" in html
+    assert "Hrishikesh Mishra" in html
+    assert "Executive Takeaways" in html
+    assert "Mumbai" in html
+    assert "Bombay" not in html

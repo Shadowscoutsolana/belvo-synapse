@@ -2,7 +2,7 @@
 {% from "partials/page_hero.html" import page_hero %}
 
 {% block content %}
-{{ page_hero("Contact", "07 / Your next chapter", "Have something bold in mind?", "Verified communication channels for Belvo Ventures Group, Mumbai. Let’s bring it into reality.") }}
+{{ page_hero("Contact", "07 / Your next chapter", "Have something bold in mind?", "Verified communication channels for Belvo Ventures Group, Mumbai. Let's bring it into reality.") }}
 
 <section class="section">
   <div class="wrap">
@@ -29,7 +29,7 @@
 
         <div>
           {% for p in profiles %}
-          <a href="{{ p.url }}" target="_blank" rel="noopener noreferrer" class="profile">
+          <a href="{{ 'https://www.linkedin.com/company/belvo.buzz/posts/' if p.platform == 'LinkedIn' else p.url }}" target="_blank" rel="noopener noreferrer" class="profile">
             <span>{{ p.platform }}</span>
             <small>Verified ↗</small>
           </a>
@@ -44,4 +44,106 @@
     </div>
   </div>
 </section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OFFICE GALLERY — 3D Floating Cards with Scroll Animations
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section dark" id="office-gallery">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Our Space</span>
+      <h2 class="h2">Where Ideas Come Alive</h2>
+      <p class="lead" style="color:#cfccc4;max-width:52ch">Step inside the Belvo Ventures Group headquarters in Mumbai — a workspace built for collaboration, creativity, and bold thinking.</p>
+    </div>
+  </div>
+
+  <!-- Floating 3D Card Grid (Balanced 2x2 Layout) -->
+  <div class="wrap">
+    <div class="gallery3d" id="gallery3d">
+
+      <!-- Card 1: Main Workspace -->
+      <a href="https://www.linkedin.com/company/belvo.buzz/posts/" target="_blank" rel="noopener noreferrer" class="g3d-card reveal-3d" data-float="1">
+        <div class="g3d-media">
+          <img src="/static/img/office/workspace-1.jpg" alt="Belvo HQ — Main Workspace" loading="lazy">
+          <div class="g3d-shine"></div>
+        </div>
+        <div class="g3d-overlay">
+          <div class="g3d-card-body">
+            <span class="g3d-kicker">Belvo HQ · Mumbai</span>
+            <h3 class="g3d-name">Main Workspace</h3>
+          </div>
+          <span class="g3d-arrow" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </span>
+        </div>
+        <div class="g3d-glow"></div>
+      </a>
+
+      <!-- Card 2: Executive Lounge -->
+      <a href="https://www.linkedin.com/company/belvo.buzz/posts/" target="_blank" rel="noopener noreferrer" class="g3d-card reveal-3d" data-float="2">
+        <div class="g3d-media">
+          <img src="/static/img/office/lounge.jpg" alt="Belvo HQ — Executive Lounge" loading="lazy">
+          <div class="g3d-shine"></div>
+        </div>
+        <div class="g3d-overlay">
+          <div class="g3d-card-body">
+            <span class="g3d-kicker">Belvo HQ · Mumbai</span>
+            <h3 class="g3d-name">Executive Lounge</h3>
+          </div>
+          <span class="g3d-arrow" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </span>
+        </div>
+        <div class="g3d-glow"></div>
+      </a>
+
+      <!-- Card 3: Manager's Cabin -->
+      <a href="https://www.linkedin.com/company/belvo.buzz/posts/" target="_blank" rel="noopener noreferrer" class="g3d-card reveal-3d" data-float="3">
+        <div class="g3d-media">
+          <img src="/static/img/office/workspace-2.jpg" alt="Belvo HQ — Manager's Cabin" loading="lazy">
+          <div class="g3d-shine"></div>
+        </div>
+        <div class="g3d-overlay">
+          <div class="g3d-card-body">
+            <span class="g3d-kicker">Belvo HQ · Mumbai</span>
+            <h3 class="g3d-name">Manager's Cabin</h3>
+          </div>
+          <span class="g3d-arrow" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </span>
+        </div>
+        <div class="g3d-glow"></div>
+      </a>
+
+      <!-- Card 4: Work Stations -->
+      <a href="https://www.linkedin.com/company/belvo.buzz/posts/" target="_blank" rel="noopener noreferrer" class="g3d-card reveal-3d" data-float="4">
+        <div class="g3d-media">
+          <img src="/static/img/office/workspace-3.jpg" alt="Belvo HQ — Work Stations" loading="lazy">
+          <div class="g3d-shine"></div>
+        </div>
+        <div class="g3d-overlay">
+          <div class="g3d-card-body">
+            <span class="g3d-kicker">Belvo HQ · Mumbai</span>
+            <h3 class="g3d-name">Work Stations</h3>
+          </div>
+          <span class="g3d-arrow" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </span>
+        </div>
+        <div class="g3d-glow"></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Connect CTA -->
+  <div class="wrap" style="margin-top:clamp(48px,6vw,80px)">
+    <div class="reveal" style="text-align:center">
+      <a href="https://www.linkedin.com/company/belvo.buzz/posts/" target="_blank" rel="noopener noreferrer" class="btn btn-accent" style="font-size:17px;padding:18px 36px">
+        Connect on LinkedIn <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 {% endblock %}
