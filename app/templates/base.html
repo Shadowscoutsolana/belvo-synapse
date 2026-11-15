@@ -15,14 +15,19 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ canonical_url or 'https://belvosynapse.com' }}">
   <meta property="og:site_name" content="Belvo Synapse">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="{{ request.base_url if request else '/' }}static/img/belvo-logo.png">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Official logo / icons -->
+  <link rel="icon" type="image/png" sizes="64x64" href="/static/img/favicon.png">
+  <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
   <meta name="theme-color" content="#0c0c0d">
 
   <!-- Fonts + design system -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/css/site.css">
+  <link rel="stylesheet" href="/static/css/site.css?v=3">
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- Schema.org JSON-LD Structured Data Block -->
@@ -37,7 +42,7 @@
 
   <header class="site-header">
     <div class="wrap">
-      <a href="/" class="brand" aria-label="Belvo Ventures Group — home">belvo<sup>®</sup></a>
+      <a href="/" class="brand" aria-label="Belvo Ventures Group — home"><img class="brand-logo" src="/static/img/belvo-icon.png" alt="" width="38" height="38"><span class="brand-name">Belvo Ventures Group</span></a>
       <button class="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false">Menu</button>
       <nav class="nav" id="site-nav" aria-label="Primary">
         <a href="/about" {% if path == '/about' %}aria-current="page"{% endif %}>About</a>
@@ -67,7 +72,7 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <div class="foot-brand" aria-hidden="true">belvo<sup>®</sup></div>
+      <div class="foot-brand" aria-hidden="true"><img class="foot-logo" src="/static/img/belvo-icon.png" alt="" width="160" height="160">belvo<sup>®</sup></div>
       <div class="foot-grid">
         <div>
           <h4>BELVO VENTURES GROUP</h4>
@@ -117,6 +122,6 @@
     </div>
   </footer>
 
-  <script src="/static/js/site.js" defer></script>
+  <script src="/static/js/site.js?v=3" defer></script>
 </body>
 </html>

@@ -55,6 +55,12 @@ a:hover>.arrow,.btn:hover .arrow{transform:translateX(4px)}
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between;height:var(--header-h)}
 .brand{font-family:var(--font-display);font-weight:700;font-size:26px;letter-spacing:-.05em;line-height:1}
 .brand sup{font-size:.45em;font-weight:500;vertical-align:top;position:relative;top:-.1em;margin-left:2px}
+.brand{display:inline-flex;align-items:center;flex-shrink:0}
+.brand-name{font-size:20px;letter-spacing:-.035em;white-space:nowrap}
+@media (max-width:380px){.brand-name{font-size:17px}}
+.brand-logo{width:38px;height:38px;border-radius:11px;margin-right:10px;flex-shrink:0;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 6px 18px -6px rgba(124,58,237,.6)}
+.foot-brand{display:flex;align-items:center;gap:clamp(14px,2vw,28px)}
+.foot-logo{width:clamp(56px,9vw,150px);height:clamp(56px,9vw,150px);border-radius:clamp(14px,2vw,32px);flex-shrink:0;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 20px 50px -20px rgba(124,58,237,.7)}
 .nav{display:flex;align-items:center;gap:4px}
 .nav a{padding:9px 14px;font-size:14px;font-weight:500;color:#d6d3cb;border-radius:999px;transition:color .2s,background .2s}
 .nav a:hover,.nav a[aria-current="page"]{color:#fff;background:rgba(255,255,255,.08)}
@@ -684,11 +690,6 @@ code.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px
   .siblings-dark{grid-template-columns:1fr 1fr}
 }
 
-/* laptop widths: keep all nav items on one line */
-@media (min-width:981px) and (max-width:1200px){
-  .nav a{padding:8px 10px;font-size:13.5px}
-  .nav .btn{margin-left:6px;padding:10px 16px;font-size:13.5px}
-}
 
 /* touch devices: there is no cursor to "move", so drop that hint */
 @media (hover:none){
@@ -799,4 +800,21 @@ code.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px
 @media (max-width:380px){
   .crew-stats{grid-template-columns:1fr 1fr}
   .siblings{grid-template-columns:1fr}
+}
+
+/* ---------- header nav breakpoint ---------- */
+.nav a{white-space:nowrap}
+.site-header .wrap{gap:24px}
+@media (min-width:1321px){
+  .site-header .wrap{gap:48px}
+  .nav a{padding:9px 11px}
+  .nav .btn{margin-left:8px;padding:11px 18px}
+}
+/* full company name + 9 links need ~1300px; below that use the Menu button */
+@media (max-width:1320px){
+  .menu-toggle{display:block}
+  .nav{display:none;position:absolute;top:var(--header-h);left:0;right:0;flex-direction:column;align-items:stretch;background:var(--ink);padding:14px var(--gutter) 24px;border-bottom:1px solid var(--line-d)}
+  .nav.open{display:flex}
+  .nav a{padding:14px 6px;font-size:17px;border-radius:0;border-bottom:1px solid var(--line-d)}
+  .nav .btn{margin:16px 0 0;padding:15px 26px;font-size:15px;text-align:center;justify-content:center}
 }
