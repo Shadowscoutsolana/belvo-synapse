@@ -273,13 +273,278 @@ a:hover>.arrow,.btn:hover .arrow{transform:translateX(4px)}
 .org-node a:hover small{color:var(--ink)}
 .org-node b{font-family:var(--font-display);font-size:14px;letter-spacing:-.02em;line-height:1.15;font-weight:600;display:block}
 
-/* ---------- products & services ---------- */
+/* ---------- products & services: 3D flip cards (Espresso Charcoal Theme) ---------- */
+.flip-grid {
+  align-items: stretch;
+}
+.flip-card {
+  perspective: 1200px;
+  min-height: 500px;
+  height: 100%;
+  outline: none;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* Hover lift and subtle scale */
+.flip-card:hover,
+.flip-card:focus-within {
+  transform: translateY(-5px) scale(1.015);
+}
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.25, 1, 0.3, 1);
+  border-radius: var(--radius);
+}
+.flip-card.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius);
+  box-sizing: border-box;
+}
+
+/* 1. Card background: #24221F (Espresso Charcoal), border: #49443F, subtle depth shadow */
+.flip-card-front {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #24221F;
+  border: 1.5px solid #49443F;
+  padding: clamp(24px, 3.2vw, 42px);
+  transform: rotateY(0deg);
+  box-shadow: 0 10px 30px -8px rgba(12, 12, 13, 0.28), 0 2px 8px -2px rgba(12, 12, 13, 0.15);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+/* 6. On hover, slightly lighten the border to give tactile feedback (no background change — flip is click-only) */
+.flip-card:hover .flip-card-front,
+.flip-card:focus-within .flip-card-front {
+  border-color: #FF633E;
+  box-shadow: 0 20px 42px -10px rgba(12, 12, 13, 0.38), 0 4px 12px -2px rgba(12, 12, 13, 0.20);
+}
+
+/* 2. Venture headings: #F5F0E8 (elegant ivory typography) */
+.flip-front-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 2.4vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #F5F0E8;
+  text-transform: uppercase;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: #24221F;
+  border: 1.5px solid #49443F;
+  overflow-y: auto;
+  box-shadow: 0 20px 46px -12px rgba(12, 12, 13, 0.38), 0 4px 12px -2px rgba(12, 12, 13, 0.20);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* Universal catch-all: every element inside the dark backside inherits light text */
+.flip-card-back,
+.flip-card-back * {
+  color: #D6CEC2;
+}
+
+/* 2. Main Venture Headings: #F5F0E8 (Ivory) */
+.flip-card-back .h3,
+.flip-card-back h2,
+.flip-card-back h2.h3 {
+  color: #F5F0E8 !important;
+}
+
+/* 3. Category & sub-labels: #FF633E (Orange highlight) */
+.flip-card-back .label,
+.flip-card-back span.label {
+  color: #FF633E !important;
+  letter-spacing: 0.14em;
+}
+
+/* 4. Description text: #D6CEC2 (Light warm-grey) */
+.flip-card-back p {
+  color: #D6CEC2 !important;
+}
+
+/* 5. Capability headings & titles: #F5F0E8 (Ivory) */
+.flip-card-back h3,
+.flip-card-back .capability-heading,
+.flip-card-back div > h3 {
+  color: #F5F0E8 !important;
+}
+
+/* 6. CRITICAL FIX: Individual Service List Items & Containers (#D6CEC2) */
+.flip-card-back ul,
+.flip-card-back.svc ul,
+.flip-card .svc ul,
+.flip-card-back .service-list {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.flip-card-back li,
+.flip-card-back.svc li,
+.flip-card .svc li,
+.flip-card-back .service-list li,
+.flip-card-back .service-item,
+.flip-card-back ul li,
+.flip-card-back li span,
+.flip-card-back .service-item span,
+.flip-card-back li p,
+.flip-card-back li * {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  color: #D6CEC2 !important;
+}
+
+/* 7. Orange accent: #FF633E for bullets/arrows and highlights */
+.flip-card-back li::before,
+.flip-card-back.svc li::before,
+.flip-card .svc li::before,
+.flip-card-back .service-list li::before,
+.flip-card-back .service-item::before,
+.flip-card-back ul li::before {
+  content: "→";
+  color: #FF633E !important;
+  font-weight: 700;
+}
+
+/* 8. Dividers / Borders inside card (#49443F) */
+.flip-card-back [style*="border-top"],
+.flip-card-back hr,
+.flip-card-back .divider {
+  border-top-color: #49443F !important;
+}
+
+/* 9. Footer labels on backside (#C4BBB0) */
+.flip-card-back .svc-foot,
+.flip-card-back.svc .svc-foot,
+.flip-card .svc-foot,
+.flip-card-back .svc-foot span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid #49443F !important;
+  font-size: 13px;
+  color: #C4BBB0 !important;
+}
+
+/* 10. Footer links on backside: #F5F0E8 with #FF633E accent on hover */
+.flip-card-back .svc-foot a,
+.flip-card-back.svc .svc-foot a,
+.flip-card .svc-foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #F5F0E8 !important;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  border-radius: 8px;
+  transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+.flip-card-back .svc-foot a:hover,
+.flip-card-back.svc .svc-foot a:hover,
+.flip-card .svc-foot a:hover {
+  color: #FF633E !important;
+  background: rgba(255, 99, 62, 0.12) !important;
+  transform: translateX(4px);
+}
+
+/* Staggered entrance animations on back face (preserved) */
+.flip-card-back > div > * {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.flip-card-back .svc-foot {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.flip-card.is-flipped .flip-card-back > div > .label:first-child {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.25s;
+}
+
+.flip-card.is-flipped .flip-card-back > div > .h3 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.32s;
+}
+
+.flip-card.is-flipped .flip-card-back > div > p {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.38s;
+}
+
+.flip-card.is-flipped .flip-card-back > div > div {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.44s;
+}
+
+.flip-card.is-flipped .flip-card-back .svc-foot {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.50s;
+}
+
 .svc{display:flex;flex-direction:column;justify-content:space-between}
 .svc ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
 .svc li{display:flex;gap:10px;font-size:14px;color:var(--ink)}
+.flip-card-back.svc li,
+.flip-card-back.svc .service-item,
+.flip-card .svc li{color:#D6CEC2 !important}
 .svc li::before{content:"→";color:var(--accent);font-weight:700}
+.flip-card-back.svc li::before,
+.flip-card .svc li::before{color:#FF633E !important}
 .svc-foot{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.flip-card-back.svc .svc-foot{color:#C4BBB0 !important;border-top-color:#49443F !important}
 .svc-foot a{font-weight:600;color:var(--ink)}
+.flip-card-back.svc .svc-foot a{color:#F5F0E8 !important}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card,
+  .flip-card:hover,
+  .flip-card:focus-within {
+    transform: none !important;
+    transition: none !important;
+  }
+  .flip-card-inner {
+    transition-duration: 0.001ms !important;
+  }
+  .flip-card-back > div > *,
+  .flip-card-back .svc-foot {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
 
 /* ---------- timeline ---------- */
 .timeline{border-top:1px solid var(--line)}

@@ -6,34 +6,44 @@
 
 <section class="section">
   <div class="wrap">
-    <div class="cards c3">
+    <div class="cards c3 flip-grid">
       {% for v in ventures %}
-      <div class="card hover svc reveal">
-        <div>
-          <span class="label">{{ v.sector }}</span>
-          <h2 class="h3">{{ v.name }}</h2>
-          <p style="font-size:15px">{{ v.one_line }}</p>
+      <div class="flip-card reveal" tabindex="0" role="region" aria-label="{{ v.name }} details">
+        <div class="flip-card-inner">
+          <!-- Front side: clean, minimal, showing only the venture name -->
+          <div class="flip-card-front card">
+            <h2 class="flip-front-title">{{ v.name }}</h2>
+          </div>
 
-          {% if v.products_services %}
-          <div style="margin-top:26px;padding-top:22px;border-top:1px solid var(--line)">
-            <span class="label" style="font-size:11px">Confirmed Capabilities</span>
-            {% for ps in v.products_services %}
-            <div style="margin-bottom:14px">
-              <h3 style="font-family:var(--font-body);font-size:15px;letter-spacing:0;font-weight:600">{{ ps.name }}</h3>
-              {% if ps.features %}
-              <ul>
-                {% for f in ps.features %}<li>{{ f }}</li>{% endfor %}
-              </ul>
+          <!-- Back side: reveals complete existing information -->
+          <div class="flip-card-back card svc">
+            <div>
+              <span class="label">{{ v.sector }}</span>
+              <h2 class="h3">{{ v.name }}</h2>
+              <p style="font-size:15px">{{ v.one_line }}</p>
+
+              {% if v.products_services %}
+              <div style="margin-top:26px;padding-top:22px;border-top:1px solid var(--line)">
+                <span class="label" style="font-size:11px">Confirmed Capabilities</span>
+                {% for ps in v.products_services %}
+                <div style="margin-bottom:14px">
+                  <h3 class="capability-heading" style="font-family:var(--font-body);font-size:15px;letter-spacing:0;font-weight:600">{{ ps.name }}</h3>
+                  {% if ps.features %}
+                  <ul class="service-list">
+                    {% for f in ps.features %}<li class="service-item"><span>{{ f }}</span></li>{% endfor %}
+                  </ul>
+                  {% endif %}
+                </div>
+                {% endfor %}
+              </div>
               {% endif %}
             </div>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
 
-        <div class="svc-foot">
-          <span>Division of Belvo</span>
-          <a href="/ventures/{{ v.slug }}">View division scope →</a>
+            <div class="svc-foot">
+              <span>Division of Belvo</span>
+              <a href="/ventures/{{ v.slug }}">View division scope →</a>
+            </div>
+          </div>
         </div>
       </div>
       {% endfor %}
