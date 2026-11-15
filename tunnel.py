@@ -3,12 +3,17 @@ import sys
 import re
 import socket
 import shutil
+import platform
 import subprocess
+import tarfile
 import urllib.request
 from pathlib import Path
 
-CLOUDFLARED_DOWNLOAD_URL = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe"
-LOCAL_EXE = Path(__file__).resolve().parent / "cloudflared.exe"
+SYSTEM = platform.system().lower()  # 'windows', 'darwin', 'linux'
+MACHINE = platform.machine().lower()  # 'arm64', 'x86_64', 'amd64'
+
+ROOT_DIR = Path(__file__).resolve().parent
+LOCAL_BIN = ROOT_DIR / ("cloudflared.exe" if SYSTEM == "windows" else "cloudflared")
 
 def _download_progress(block_num: int, block_size: int, total_size: int):
     if total_size > 0:
@@ -26,28 +31,73 @@ def check_local_server(port: int = 8000) -> bool:
     except Exception:
         return False
 
+def get_download_info() -> tuple[str | None, bool]:
+    base = "https://github.com/cloudflare/cloudflared/releases/latest/download"
+    if SYSTEM == "windows":
+        return f"{base}/cloudflared-windows-amd64.exe", False
+    elif SYSTEM == "darwin":
+        is_arm = "arm" in MACHINE or "aarch" in MACHINE
+        arch = "arm64" if is_arm else "amd64"
+        return f"{base}/cloudflared-darwin-{arch}.tgz", True
+    elif SYSTEM == "linux":
+        is_arm = "arm" in MACHINE or "aarch" in MACHINE
+        arch = "arm64" if is_arm else "amd64"
+        return f"{base}/cloudflared-linux-{arch}", False
+    return None, False
+
 def find_or_download_cloudflared() -> str | None:
-    # 1. Check project directory
-    if LOCAL_EXE.exists() and LOCAL_EXE.stat().st_size > 10_000_000:
-        return str(LOCAL_EXE)
+    # 1. Check local project directory
+    if LOCAL_BIN.exists() and LOCAL_BIN.stat().st_size > 5_000_000:
+        if SYSTEM != "windows":
+            try:
+                os.chmod(LOCAL_BIN, 0o755)
+            except Exception:
+                pass
+        return str(LOCAL_BIN)
     
     # 2. Check system PATH
     system_cf = shutil.which("cloudflared") or shutil.which("cloudflared.exe")
     if system_cf:
         return system_cf
     
-    # 3. Attempt automatic download of official cloudflared binary
-    print("[Cloudflare Tunnel] 'cloudflared' not found in PATH or project directory.")
-    print(f"[Cloudflare Tunnel] Downloading official Windows binary (~55 MB)...")
+    # 3. Check standard Homebrew paths on macOS
+    if SYSTEM == "darwin":
+        for brew_path in ("/opt/homebrew/bin/cloudflared", "/usr/local/bin/cloudflared"):
+            if os.path.exists(brew_path):
+                return brew_path
+
+    # 4. Attempt automatic download of official binary
+    url, is_tar = get_download_info()
+    if not url:
+        print(f"[Cloudflare Tunnel] Automatic download not supported for {SYSTEM}-{MACHINE}.")
+        return None
+
+    print(f"[Cloudflare Tunnel] 'cloudflared' not found. Downloading official {SYSTEM.capitalize()} binary...")
     try:
-        urllib.request.urlretrieve(CLOUDFLARED_DOWNLOAD_URL, str(LOCAL_EXE), reporthook=_download_progress)
-        print(f"\n[Cloudflare Tunnel] Successfully downloaded to {LOCAL_EXE}\n")
-        return str(LOCAL_EXE)
+        if is_tar:
+            tar_path = ROOT_DIR / "cloudflared.tgz"
+            urllib.request.urlretrieve(url, str(tar_path), reporthook=_download_progress)
+            print("\n[Cloudflare Tunnel] Extracting archive...")
+            with tarfile.open(str(tar_path), "r:gz") as tar:
+                tar.extract("cloudflared", path=str(ROOT_DIR))
+            if tar_path.exists():
+                tar_path.unlink()
+        else:
+            urllib.request.urlretrieve(url, str(LOCAL_BIN), reporthook=_download_progress)
+
+        if SYSTEM != "windows" and LOCAL_BIN.exists():
+            os.chmod(LOCAL_BIN, 0o755)
+
+        print(f"\n[Cloudflare Tunnel] Successfully downloaded to {LOCAL_BIN}\n")
+        return str(LOCAL_BIN)
     except Exception as e:
         print(f"\n[Cloudflare Tunnel] Automatic download failed: {e}")
-        print("\nTo install Cloudflare Tunnel manually:")
-        print("  1. Windows Package Manager: winget install --id Cloudflare.cloudflared")
-        print("  2. Direct Download: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/")
+        if SYSTEM == "darwin":
+            print("\n👉 To install Cloudflare Tunnel on macOS using Homebrew, run:")
+            print("   brew install cloudflared\n")
+        else:
+            print("\n👉 To install manually, see:")
+            print("   https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/\n")
         return None
 
 def run_tunnel(port: int = 8000, token: str | None = None):
