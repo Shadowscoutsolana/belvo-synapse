@@ -33,6 +33,25 @@
     });
   }
 
+  // Products page: filter the Belqora ecosystem by industry
+  var eco = document.querySelector('[data-eco]');
+  if (eco) {
+    var ecoChips = document.querySelectorAll('[data-eco-filter]');
+    ecoChips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var cat = chip.getAttribute('data-eco-filter');
+        ecoChips.forEach(function (c) {
+          var on = c === chip;
+          c.classList.toggle('is-on', on);
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        eco.querySelectorAll('[data-eco-cat]').forEach(function (card) {
+          card.hidden = cat !== 'all' && card.getAttribute('data-eco-cat') !== cat;
+        });
+      });
+    });
+  }
+
   // Scroll reveal
   var items = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduce) {

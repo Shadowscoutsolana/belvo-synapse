@@ -9,6 +9,7 @@ from app.models.seo import ExternalProfile, PageSEO
 from app.services.seo_service import SEOService
 from app.services.insights_service import InsightsService
 from app.config import settings
+from app.services.belqora_catalog import BELQORA_ECOSYSTEM
 
 templates = Jinja2Templates(directory=str(Path(__file__).parent.parent / "templates"))
 
@@ -157,6 +158,8 @@ def products_services_page(request: Request, db: Session = Depends(get_db)):
         name="public/products_services.html",
         context={
             "ventures": ventures,
+            "belqora": BELQORA_ECOSYSTEM,
+            "belqora_total": sum(len(c["products"]) for c in BELQORA_ECOSYSTEM),
             "seo_title": "Products & Services | Belvo Ventures Group",
             "meta_description": "Directory of capabilities and services offered across Belvo Ventures Group's nine divisions.",
             "canonical_url": f"{settings.BASE_URL}/products-services"

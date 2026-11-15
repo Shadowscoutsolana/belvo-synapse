@@ -39,6 +39,9 @@
               {% endif %}
             </div>
 
+            {% if v.slug == 'belqora' and belqora %}
+            <a href="#belqora-ecosystem" class="eco-jump">Explore {{ belqora_total }} Belqora products <span class="arrow">↓</span></a>
+            {% endif %}
             <div class="svc-foot">
               <span>Division of Belvo</span>
               <a href="/ventures/{{ v.slug }}">View division scope →</a>
@@ -50,4 +53,54 @@
     </div>
   </div>
 </section>
+
+{% if belqora %}
+<!-- Belqora product ecosystem -->
+<section class="section dark eco" id="belqora-ecosystem" aria-labelledby="eco-title">
+  <div class="wrap">
+    <div class="eco-head reveal">
+      <div>
+        <span class="label">Belqora · Software Solutions</span>
+        <h2 class="h2" id="eco-title">Belqora — Product Ecosystem</h2>
+        <p class="lead muted">{{ belqora|length }} diverse solution families for every industry, from clinics and cafés to enterprises and AI.</p>
+      </div>
+      <div class="eco-stats">
+        <div><b>{{ belqora_total }}</b><span>Products</span></div>
+        <div><b>{{ belqora|length }}</b><span>Industries</span></div>
+      </div>
+    </div>
+
+    <div class="job-filters eco-filters reveal" role="group" aria-label="Filter Belqora products by industry">
+      <button type="button" class="chip is-on" data-eco-filter="all" aria-pressed="true">All <i>{{ belqora_total }}</i></button>
+      {% for c in belqora %}
+      <button type="button" class="chip" data-eco-filter="{{ c.slug }}" aria-pressed="false">{{ c.name }} <i>{{ c.products|length }}</i></button>
+      {% endfor %}
+    </div>
+
+    <div class="eco-grid reveal" data-eco>
+      {% for c in belqora %}
+      <article class="eco-card" data-eco-cat="{{ c.slug }}">
+        <header>
+          <span class="eco-num">{{ '%02d' % loop.index }}</span>
+          <span class="eco-icon" aria-hidden="true">{{ c.icon }}</span>
+        </header>
+        <h3>{{ c.name }}</h3>
+        <span class="eco-count">{{ c.products|length }} products</span>
+        <ul>
+          {% for name, use in c.products %}
+          <li><b>{{ name }}</b><span>{{ use }}</span></li>
+          {% endfor %}
+        </ul>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div class="eco-cta reveal">
+      <p>Need one of these for your business?</p>
+      <a href="/ventures/belqora" class="btn btn-light">Explore Belqora <span class="arrow">→</span></a>
+      <a href="/contact" class="btn btn-ghost">Talk to us</a>
+    </div>
+  </div>
+</section>
+{% endif %}
 {% endblock %}
