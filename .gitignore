@@ -8,3 +8,9 @@ __pycache__/
 *.sqlite3
 .env
 .DS_Store
+
+# Cloudflare Tunnel binaries & cache
+cloudflared.exe
+cloudflared-windows-amd64.exe
+.cloudflared/
+

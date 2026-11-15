@@ -47,9 +47,24 @@ python -m app.seed
 
 ### 4. Run the Server
 ```powershell
+# Standard local mode:
 python run.py
 # Server runs on http://127.0.0.1:8000
+
+# With Cloudflare Tunnel enabled (exposes public HTTPS URL for AI crawlers & testing):
+python run.py --tunnel
 ```
+
+#### Running Cloudflare Tunnel Separately
+You can also launch the tunnel in a dedicated terminal window:
+```powershell
+# Using Python
+python tunnel.py
+
+# Or using the PowerShell launcher
+.\start_tunnel.ps1
+```
+*(If `cloudflared` is not yet installed on your system, the script will automatically download the official binary on its first run, or you can install it via `winget install --id Cloudflare.cloudflared`)*
 
 ### 5. Run Test Suite
 ```powershell

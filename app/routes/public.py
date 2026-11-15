@@ -13,6 +13,21 @@ templates = Jinja2Templates(directory=str(Path(__file__).parent.parent / "templa
 
 router = APIRouter()
 
+STATIC_DIR = Path(__file__).parent.parent / "static"
+
+def venture_art(slug: str) -> dict:
+    """Logo files for a division, if present in static/img/ventures/.
+    '<slug>-mark.*' = icon beside the name (also the dot background by default),
+    '<slug>-bg.*'   = optional different image for the dot background (e.g. a full wordmark),
+    '<slug>.*'      = full logo kept for reference."""
+    art = {}
+    for kind, stem in (("mark", f"{slug}-mark"), ("bg", f"{slug}-bg"), ("full", slug)):
+        for ext in ("svg", "png", "webp", "jpg"):
+            if (STATIC_DIR / "img" / "ventures" / f"{stem}.{ext}").exists():
+                art[kind] = f"/static/img/ventures/{stem}.{ext}"
+                break
+    return art
+
 @router.get("/")
 def home_page(request: Request, db: Session = Depends(get_db)):
     company = db.query(Company).first()
@@ -28,6 +43,7 @@ def home_page(request: Request, db: Session = Depends(get_db)):
         context={
             "company": company,
             "ventures": ventures,
+            "art": {v.slug: venture_art(v.slug) for v in ventures},
             "faqs": faqs,
             "schema_json": schema_json,
             "seo_title": "Belvo Synapse | Belvo Ventures Group Knowledge Base",

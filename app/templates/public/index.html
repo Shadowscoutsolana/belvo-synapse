@@ -21,7 +21,7 @@
         <a href="/about" class="btn btn-ghost">Our Story &amp; Internship Cohorts</a>
       </div>
     </div>
-    <div class="wrap"><div class="hero-hint"><span>Move your cursor · Click to recompose</span><span>BELVO VENTURES GROUP · Mumbai</span></div></div>
+    <div class="wrap"><div class="hero-hint"><span>Move your cursor · Click to scatter</span><span>BELVO VENTURES GROUP · Mumbai</span></div></div>
   </div>
 </section>
 
@@ -77,17 +77,33 @@
       <p class="lead muted">Each venture is a specialized division of Belvo Ventures Group operating under one entity, addressing specific business requirements for founders and enterprises.</p>
     </div>
 
-    <div class="rows reveal">
-      {% for v in ventures %}
-      <a class="row" href="/ventures/{{ v.slug }}">
-        <span class="row-num">0{{ v.display_order }}</span>
-        <span class="row-title">{{ v.name }}<small>{{ v.sector }}</small></span>
-        <span class="row-desc">{{ v.one_line }}</span>
-        <span class="row-go arrow">→</span>
-      </a>
-      {% endfor %}
-    </div>
+  </div>
 
+  <!-- Divisions: each one grows out of the dot box into a full-screen slide as you scroll (the page never pins) -->
+  <div class="xslides" data-xslides>
+    <div class="dotbox-rail" aria-hidden="true"><canvas class="dotbox"></canvas></div>
+    {% for v in ventures %}
+    {% set a = art[v.slug] if art is defined and v.slug in art else {} %}
+    <article class="xslide">
+      <div class="xpanel"{% if a.bg or a.mark %} data-art="{{ a.bg or a.mark }}"{% endif %}>
+        {% if a.bg or a.mark %}<canvas class="xart" aria-hidden="true"></canvas>{% endif %}
+        <div class="wrap xpanel-inner">
+          <span class="xnum">{{ '%02d' % loop.index }} <small>/ {{ '%02d' % loop.length }}</small></span>
+          <span class="xsector">{{ v.sector }}</span>
+          <div class="xtitle">
+            {% if a.mark %}<img class="xlogo" src="{{ a.mark }}" alt="{{ v.name }} logo" loading="lazy">{% else %}<span class="xlogo xlogo-mono" aria-hidden="true">{{ v.name[0] }}</span>{% endif %}
+            <h3 class="xname">{{ v.name }}</h3>
+          </div>
+          <p class="xone">{{ v.one_line }}</p>
+          <p class="xdesc">{{ v.description }}</p>
+          <a class="btn btn-dark" href="/ventures/{{ v.slug }}">Explore {{ v.name }} <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+  <div class="wrap">
     <p style="margin-top:36px"><a href="/ventures" class="link-arrow">View full ecosystem chart <span class="arrow">→</span></a></p>
   </div>
 </section>
@@ -100,38 +116,67 @@
       <h2 class="h2">Built by a founder.<br>Powered by learners.</h2>
     </div>
 
-    <div class="cards c2">
-      <div class="card soft tilt reveal" data-tilt>
-        <div class="meta-row" style="gap:20px;margin-bottom:28px">
-          <div class="avatar" aria-hidden="true">H</div>
-          <div>
-            <h3 class="h3">Hrishikesh</h3>
-            <p style="margin-top:6px;color:var(--ink);font-weight:600">Founder, Belvo Ventures Group</p>
-            <p style="font-size:14px">Mumbai, India</p>
-          </div>
-        </div>
-        <p style="margin-bottom:28px">
-          Belvo Ventures Group began on 14 February 2022 in Mumbai. It started as freelance work, and as founder Hrishikesh built a network of founders, professionals and clients, it grew into a multi-venture group covering marketing, funding, software, interiors, and social impact.
+    <!-- The founder -->
+    <article class="founder reveal">
+      <!-- To use a real photo: replace the monogram div with <img src="/static/img/founder.jpg" alt="Hrishikesh, Founder of Belvo Ventures Group"> -->
+      <div class="founder-portrait" role="img" aria-label="Hrishikesh, Founder of Belvo Ventures Group">
+        <span class="founder-mono" aria-hidden="true">H</span>
+        <span class="founder-tag"><b>Hrishikesh</b>Founder · Mumbai</span>
+      </div>
+
+      <div class="founder-body">
+        <span class="eyebrow">The founder</span>
+        <h3 class="founder-name">Hrishikesh</h3>
+        <p class="founder-role">Founder, Belvo Ventures Group</p>
+        <p class="founder-story">
+          Belvo Ventures Group began on 14 February 2022 in Mumbai. It started as freelance work, and as founder Hrishikesh built a network of founders, professionals and clients, it grew into a group of ventures — nine divisions under one ecosystem.
         </p>
-        <div class="meta-row">
+
+        <ol class="journey" aria-label="The Belvo journey">
+          <li><b>2022</b><span>Founded in Mumbai</span></li>
+          <li><b>Network</b><span>Founders, professionals &amp; clients</span></li>
+          <li><b>9</b><span>Specialized divisions</span></li>
+          <li><b>1,000+</b><span>Interns trained</span></li>
+        </ol>
+
+        <div class="meta-row" style="margin-top:34px">
           <span class="pill ok">Verified Founder Profile</span>
           <a href="/leadership" class="link-arrow">Read leadership profile <span class="arrow">→</span></a>
         </div>
       </div>
+    </article>
 
-      <div class="card ink tilt reveal" data-tilt>
-        <span class="label">Empowerment &amp; Education</span>
-        <h3 class="h3">Structured Internship Batches</h3>
-        <p>
+    <!-- The people: every dot is one intern -->
+    <article class="crew reveal">
+      <div class="crew-copy">
+        <span class="label">The people behind Belvo</span>
+        <h3 class="crew-title">A team of 50.<br>Over 1,000 interns trained.</h3>
+        <p class="crew-text">
           Belvo runs structured internship batches for learners from across India. More than 500 interns are currently part of our ongoing cohorts, with new batches opening soon, and over 1,000 interns have been trained so far.
         </p>
-        <div class="cards c2" style="margin-top:36px;gap:24px">
-          <div><div class="big-num">500+</div><p style="font-size:13px;margin-top:8px">Active Cohort Learners</p></div>
-          <div><div class="big-num">1,000+</div><p style="font-size:13px;margin-top:8px">Total Trained Alumni</p></div>
+
+        <div class="crew-stats">
+          <div><b data-count="50">50</b><span>Team members</span></div>
+          <div><b data-count="500" data-suffix="+">500+</b><span>Active interns</span></div>
+          <div><b data-count="1000" data-suffix="+">1,000+</b><span>Interns trained</span></div>
         </div>
-        <p style="margin-top:32px"><a href="/about" class="btn btn-light">Learn more about batches <span class="arrow">→</span></a></p>
+
+        <div class="crew-chips">
+          <span>Technical</span><span>Design</span><span>Marketing</span><span>Business</span>
+        </div>
+
+        <a href="/about" class="btn btn-light" style="margin-top:34px">Learn more about batches <span class="arrow">→</span></a>
       </div>
-    </div>
+
+      <figure class="crew-field">
+        <canvas class="crowd" data-trained="1000" data-active="500" aria-hidden="true"></canvas>
+        <figcaption>
+          <span><i class="key key-trained"></i>1,000+ trained</span>
+          <span><i class="key key-active"></i>500+ in active cohorts</span>
+          <span class="crew-note">Every dot is one intern</span>
+        </figcaption>
+      </figure>
+    </article>
   </div>
 </section>
 
