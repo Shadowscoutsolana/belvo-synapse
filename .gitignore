@@ -9,10 +9,3 @@ __pycache__/
 .env
 .DS_Store
 
-# Cloudflare Tunnel binaries & cache
-cloudflared
-cloudflared.exe
-cloudflared-windows-amd64.exe
-*.tgz
-.cloudflared/
-
