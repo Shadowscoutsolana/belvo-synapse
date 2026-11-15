@@ -63,7 +63,7 @@ def seed_database():
                     "sector": "Interior Design & Space Solutions",
                     "one_line": "Interior design and space solutions.",
                     "description": "Tatva is the architecture and space design division of Belvo Ventures Group, delivering human-centric spatial planning, modern commercial workspace designs, and aesthetic residential interiors.",
-                    "display_order": 3
+                    "display_order": 5
                 },
                 {
                     "name": "Hridayam",
@@ -71,7 +71,7 @@ def seed_database():
                     "sector": "Coaching & Personal Development",
                     "one_line": "Coaching to help people learn, grow and build confidence.",
                     "description": "Hridayam is the mentorship and personal coaching division of Belvo Ventures Group, offering targeted guidance to empower young founders, professionals, and students to unlock leadership potential.",
-                    "display_order": 4
+                    "display_order": 8
                 },
                 {
                     "name": "Verdict",
@@ -79,7 +79,7 @@ def seed_database():
                     "sector": "Legal Support",
                     "one_line": "Legal support for founders and businesses.",
                     "description": "Verdict is the legal advisory support division of Belvo Ventures Group. It assists early-stage and growing enterprises with foundational contracts, compliance hygiene, vendor agreements, and commercial documentation support.",
-                    "display_order": 5
+                    "display_order": 4
                 },
                 {
                     "name": "Fyndra",
@@ -87,7 +87,7 @@ def seed_database():
                     "sector": "CA & Financial Support",
                     "one_line": "CA support to help businesses manage their accounts and finances.",
                     "description": "Fyndra is the chartered accountancy and financial management support division of Belvo Ventures Group, providing business accounting advisory, bookkeeping frameworks, and tax compliance assistance.",
-                    "display_order": 6
+                    "display_order": 3
                 },
                 {
                     "name": "Belqora",
@@ -95,7 +95,7 @@ def seed_database():
                     "sector": "Software Solutions",
                     "one_line": "Software solutions for businesses.",
                     "description": "Belqora is the software engineering and digital transformation division of Belvo Ventures Group, engineering reliable cloud platforms, web applications, custom enterprise tools, and workflow automations.",
-                    "display_order": 7
+                    "display_order": 6
                 },
                 {
                     "name": "Klyro",
@@ -103,7 +103,7 @@ def seed_database():
                     "sector": "Hardware Solutions",
                     "one_line": "Hardware solutions for businesses.",
                     "description": "Klyro is the hardware and embedded systems division of Belvo Ventures Group, helping commercial clients with tailored hardware integration, smart device prototypes, and technical infrastructure setups.",
-                    "display_order": 8
+                    "display_order": 7
                 },
                 {
                     "name": "Sahay",
@@ -138,15 +138,15 @@ def seed_database():
         if db.query(ProductService).count() == 0:
             print("Seeding confirmed division offerings...")
             services_map = [
-                ("belvo-digital", "Digital Marketing & Web Services", "Web, social media and digital marketing services to help businesses grow online.", ["Web Development", "Social Media Marketing", "Performance Campaigns"]),
-                ("capvanta", "Funding Enablement", "Helping founders and businesses get the funds they need to grow.", ["Investment Readiness", "Pitch Deck Structuring", "Capital Advisory"]),
-                ("tatva", "Interior Design & Space Solutions", "Interior design and space solutions for commercial workspaces and residential environments.", ["Space Planning", "Commercial Interiors", "Turnkey Design Solutions"]),
-                ("hridayam", "Coaching & Personal Development", "Coaching to help people learn, grow and build confidence.", ["Founder Mentorship", "Confidence Building", "Leadership Guidance"]),
-                ("verdict", "Legal Support for Founders", "Legal support for founders and businesses.", ["Contract Structuring", "Documentation Support", "Commercial Governance Hygiene"]),
-                ("fyndra", "CA & Financial Support", "CA support to help businesses manage their accounts and finances.", ["Accounting Advisory", "Bookkeeping Hygiene", "Tax & Financial Compliance"]),
+                ("belvo-digital", "Digital Marketing & Web Services", "Web, social media and digital marketing services to help businesses grow online.", ["Performance Marketing", "SEO & Organic Growth", "E-commerce Partnerships", "Social Media Design", "Brand Strategy & PR", "Influencer Marketing", "Web & App Development"]),
+                ("capvanta", "Business Advisory & Funding", "Helping founders and businesses get the funds they need to grow.", ["Strategic Business Advisory", "Corporate Registration", "Legal & Equity Advisory", "Startup Valuation & Financial Modelling", "Due Diligence & Audit", "Co-founder Search & Leadership", "Fundraising Support", "Venture Partnerships"]),
+                ("tatva", "Interior Design & Space Solutions", "Interior design and space solutions.", ["Residential Interiors", "Commercial Interiors", "Renovation", "Space Planning"]),
+                ("hridayam", "Coaching & Personal Development", "Coaching to help people learn, grow and build confidence.", ["Career Courses", "Business & Entrepreneurship", "Accounting & Finance", "Graphic & Video Skills", "Personal Development", "Certifications"]),
+                ("verdict", "Legal Services", "Legal support for founders and businesses.", ["Corporate & Startup Law", "IPR Services", "Business & Regulatory Support", "Contract Management Legal Support", "Litigation & Disputes", "HR & Employment Law", "Legal Tech Solutions"]),
+                ("fyndra", "Finance & Accounting", "CA support to help businesses manage their accounts and finances.", ["Accounting & Bookkeeping", "Taxation Services", "Corporate Registration", "Financial Consulting", "Payroll & HR Financing", "Audit & Compliance", "Startup Finance", "Personal Finance"]),
                 ("belqora", "Software Solutions", "Software solutions for businesses.", ["Custom Software Development", "Cloud Architecture", "Workflow Automation"]),
-                ("klyro", "Hardware Solutions", "Hardware solutions for businesses.", ["Device Integration", "Embedded Prototyping", "Technical Hardware Support"]),
-                ("sahay", "Social Impact & NGO Outreach", "Belvo's NGO division, working for social good.", ["Youth Skill Programs", "Educational Cohorts", "Grassroot Community Outreach"])
+                ("klyro", "Digital Solutions", "Hardware solutions for businesses.", ["Attendo (Attendance Device)", "Clario Beat (Meeting Device)"]),
+                ("sahay", "NGO & Social Impact", "Belvo's NGO division, working for social good.", ["Education for Underprivileged Children", "Community Welfare", "Social Impact Initiatives"]),
             ]
             for v_slug, s_name, s_desc, feats in services_map:
                 vent = db.query(Venture).filter(Venture.slug == v_slug).first()
