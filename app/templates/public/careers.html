@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set teams = [] %}
+{% for o in openings %}{% if o.team not in teams %}{% set _ = teams.append(o.team) %}{% endif %}{% endfor %}
+{% set apply = "mailto:contact@belvoventures.com?subject=" %}
+<!-- Hero -->
+<section class="page-hero careers-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li aria-current="page">Careers</li>
+      </ol>
+    </nav>
+    <div class="ch-grid">
+      <div>
+        <span class="eyebrow">Careers at Belvo</span>
+        <h1 class="h1">Do the best work of your career.</h1>
+        <p class="lead">Join a founder-led team of 50 building nine ventures under one ecosystem in Mumbai. Real work, real ownership, and room to grow across every division.</p>
+        <div class="hero-cta">
+          <a href="#openings" class="btn btn-light">View open roles <span class="arrow">↓</span></a>
+          <a href="#internships" class="btn btn-ghost">Internship programme</a>
+        </div>
+      </div>
+      <a href="#openings" class="ch-count" aria-label="{{ total_openings }} open positions — view all">
+        <b>{{ total_openings }}</b>
+        <span>Open positions</span>
+        <small>{{ openings|length }} roles · {{ teams|length }} teams · Mumbai</small>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Open positions -->
+<section class="section" id="openings">
+  <div class="wrap">
+    <div class="jobs-head reveal">
+      <div class="section-head" style="margin:0">
+        <span class="label">01 / Open Positions</span>
+        <h2 class="h2">Find your role.</h2>
+      </div>
+      {% set tl = teams|map('lower')|list %}
+      <p class="muted">We’re hiring across {% if tl|length > 1 %}{{ tl[:-1]|join(', ') }} and {{ tl[-1] }}{% else %}{{ tl[0] }}{% endif %}.{% if tl|length > 1 %} Pick a team to filter.{% endif %}</p>
+    </div>
+
+    <div class="job-filters reveal" role="group" aria-label="Filter by team">
+      <button type="button" class="chip is-on" data-team="all" aria-pressed="true">All teams <i>{{ total_openings }}</i></button>
+      {% for t in teams %}
+      <button type="button" class="chip" data-team="{{ t }}" aria-pressed="false">{{ t }} <i>{{ openings|selectattr('team','equalto',t)|sum(attribute='count') }}</i></button>
+      {% endfor %}
+    </div>
+
+    <ul class="jobs reveal" data-jobs>
+      {% for o in openings %}
+      <li class="job" data-team="{{ o.team }}">
+        <a href="{{ apply }}{{ ('Application: ' ~ o.title)|urlencode }}">
+          <span class="job-main">
+            <b class="job-title">{{ o.title }}</b>
+            <span class="job-meta"><span>{{ o.team }}</span><span>Mumbai, India</span></span>
+          </span>
+          <span class="job-count"><b>{{ o.count }}</b> {{ 'opening' if o.count == 1 else 'openings' }}</span>
+          <span class="job-apply">Apply <span class="arrow">→</span></span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<!-- Why Belvo -->
+<section class="section dark">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="label">02 / Why Belvo</span>
+      <h2 class="h2">One company.<br>Nine ways to grow.</h2>
+    </div>
+    <div class="perks reveal">
+      <div class="perk">
+        <span class="perk-num">01</span>
+        <h3>Nine divisions, one team</h3>
+        <p>Work across digital marketing, funding, interiors, coaching, legal, CA, software, hardware and social impact without changing companies.</p>
+      </div>
+      <div class="perk">
+        <span class="perk-num">02</span>
+        <h3>Founder-led</h3>
+        <p>Belvo grew from freelance work in 2022 into a group of ventures. You work close to the founder and see your impact directly.</p>
+      </div>
+      <div class="perk">
+        <span class="perk-num">03</span>
+        <h3>Built on learning</h3>
+        <p>Over 1,000 interns trained and 500+ in active cohorts. Teaching and mentoring are part of how we work every day.</p>
+      </div>
+      <div class="perk">
+        <span class="perk-num">04</span>
+        <h3>Purpose beyond profit</h3>
+        <p>Through Sahay, our NGO division, the ecosystem gives back to the community it grows in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hiring process -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="label">03 / How we hire</span>
+      <h2 class="h2">Simple, quick, human.</h2>
+    </div>
+    <ol class="steps reveal">
+      <li><span>Step 01</span><h3>Apply</h3><p>Pick a role and email us your CV or portfolio.</p></li>
+      <li><span>Step 02</span><h3>Review</h3><p>Our team reviews your profile against the role.</p></li>
+      <li><span>Step 03</span><h3>Conversation</h3><p>Meet the team you’d work with and talk through the work.</p></li>
+      <li><span>Step 04</span><h3>Welcome aboard</h3><p>Receive your offer and start onboarding in Mumbai.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- Internships -->
+<section class="section" id="internships" style="padding-top:0">
+  <div class="wrap">
+    <div class="crew">
+      <div>
+        <span class="label">04 / Internship Programme</span>
+        <h2 class="crew-title">Start your career with a Belvo batch.</h2>
+        <p class="crew-text">Belvo runs structured internship batches for learners from across India, with new batches opening soon.</p>
+        <div class="crew-stats">
+          <div><b>50</b><span>Team members</span></div>
+          <div><b>500+</b><span>Active interns</span></div>
+          <div><b>1,000+</b><span>Interns trained</span></div>
+        </div>
+        <div class="crew-chips">
+          <span>Technical</span><span>Design</span><span>Marketing</span><span>Business</span>
+        </div>
+        <a href="{{ apply }}{{ 'Internship application'|urlencode }}" class="btn btn-light" style="margin-top:34px">Apply for an internship <span class="arrow">→</span></a>
+      </div>
+      <div class="siblings siblings-dark">
+        {% for v in ventures %}
+        <a class="sib" href="/ventures/{{ v.slug }}"><b>{{ v.name }}</b><span>{{ v.sector }}</span></a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <span class="eyebrow">05 / Your next chapter</span>
+    <h2 class="h2">{{ total_openings }} seats. One could be yours.</h2>
+    <p>Email your CV with the role in the subject line. We’ll get back to you.</p>
+    <div class="hero-cta" style="margin-top:0">
+      <a href="#openings" class="btn btn-dark">See open roles <span class="arrow">↑</span></a>
+      <a href="{{ apply }}{{ 'Careers enquiry'|urlencode }}" class="btn btn-ghost-dark">contact@belvoventures.com</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

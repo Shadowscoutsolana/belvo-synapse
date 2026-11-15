@@ -14,6 +14,25 @@
     });
   }
 
+  // Careers: filter open positions by team
+  var jobList = document.querySelector('[data-jobs]');
+  if (jobList) {
+    var chips = document.querySelectorAll('.job-filters .chip');
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var team = chip.getAttribute('data-team');
+        chips.forEach(function (c) {
+          var on = c === chip;
+          c.classList.toggle('is-on', on);
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        jobList.querySelectorAll('.job').forEach(function (job) {
+          job.hidden = team !== 'all' && job.getAttribute('data-team') !== team;
+        });
+      });
+    });
+  }
+
   // Scroll reveal
   var items = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduce) {

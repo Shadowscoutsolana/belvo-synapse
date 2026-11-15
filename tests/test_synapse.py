@@ -12,7 +12,8 @@ from app.routes.public import (
     faq_page,
     contact_page,
     insights_page,
-    insight_article_detail
+    insight_article_detail,
+    careers_page
 )
 from app.routes.technical import robots_txt, sitemap_xml, llms_txt
 from app.services.consistency import ConsistencyValidator
@@ -69,6 +70,7 @@ def test_all_public_pages_render(db):
         ("/faq", lambda req: faq_page(req, db)),
         ("/contact", lambda req: contact_page(req, db)),
         ("/insights", lambda req: insights_page(req, db)),
+        ("/careers", lambda req: careers_page(req, db)),
     ]
     for path, handler in pages:
         req = make_request(path)

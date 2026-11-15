@@ -217,6 +217,34 @@ def insight_article_detail(slug: str, request: Request, db: Session = Depends(ge
         }
     )
 
+# Current openings — edit this list to update the careers page.
+OPENINGS = [
+    {"title": "Website Developer",     "team": "Technology",          "count": 10},
+    {"title": "Software Developer",    "team": "Technology",          "count": 5},
+    {"title": "Social Media Manager",  "team": "Marketing",           "count": 5},
+    {"title": "Business Analyst",      "team": "Business",            "count": 5},
+    {"title": "Graphic Designer",      "team": "Design",              "count": 3},
+    {"title": "Administrative Staff",  "team": "People & Operations", "count": 3},
+    {"title": "HR Executive",          "team": "People & Operations", "count": 2},
+]
+
+@router.get("/careers")
+def careers_page(request: Request, db: Session = Depends(get_db)):
+    ventures = db.query(Venture).filter(Venture.is_published == True).order_by(Venture.display_order).all()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="public/careers.html",
+        context={
+            "ventures": ventures,
+            "openings": OPENINGS,
+            "total_openings": sum(o["count"] for o in OPENINGS),
+            "seo_title": "Careers & Internships | Belvo Ventures Group",
+            "meta_description": "Open positions, careers and structured internship batches at Belvo Ventures Group, Mumbai. Over 1,000 interns trained across technical, design, marketing and business cohorts.",
+            "canonical_url": f"{settings.BASE_URL}/careers"
+        }
+    )
+
 @router.get("/contact")
 def contact_page(request: Request, db: Session = Depends(get_db)):
     profiles = db.query(ExternalProfile).all()
