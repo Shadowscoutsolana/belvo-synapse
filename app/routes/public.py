@@ -137,7 +137,20 @@ def achievements_page(request: Request, db: Session = Depends(get_db)):
 
 @router.get("/products-services")
 def products_services_page(request: Request, db: Session = Depends(get_db)):
-    ventures = db.query(Venture).filter(Venture.is_published == True).order_by(Venture.display_order).all()
+    ORDER = [
+        "belvo-digital",
+        "capvanta",
+        "fyndra",
+        "verdict",
+        "tatva",
+        "belqora",
+        "klyro",
+        "hridayam",
+        "sahay"
+    ]
+    order_map = {slug: idx for idx, slug in enumerate(ORDER)}
+    ventures = db.query(Venture).filter(Venture.is_published == True).all()
+    ventures = sorted(ventures, key=lambda v: order_map.get(v.slug, 99))
 
     return templates.TemplateResponse(
         request=request,

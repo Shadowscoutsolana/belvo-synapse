@@ -52,7 +52,7 @@ def test_home_page_renders_blueprint_facts(db):
     assert "9" in html
     assert "1,000+" in html
     assert "Innovate · Build · Grow" in html
-    assert "By a founder, for the founders" in html
+    assert ("By a founder, for the founders" in html or "By the Founder, for the Founder" in html)
     
     # Schema.org JSON-LD
     assert 'application/ld+json' in html

@@ -558,3 +558,30 @@
   img.onload = function () { build(sample(img)); start(); };
   img.src = LOGO;
 })();
+
+/* ---------- Products & Services: 3D Flip Cards — Click to Flip (all devices) ---------- */
+(function () {
+  var cards = document.querySelectorAll('.flip-card');
+  if (!cards.length) return;
+
+  cards.forEach(function (card) {
+    /* Accessibility attributes */
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+
+    /* Click: toggle flip; let links and buttons inside pass through normally */
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('a, button')) return;
+      card.classList.toggle('is-flipped');
+    });
+
+    /* Keyboard: Enter or Space toggles flip */
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('is-flipped');
+      }
+    });
+  });
+})();
+
