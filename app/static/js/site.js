@@ -27,6 +27,55 @@
     items.forEach(function (el) { el.classList.add('in'); });
   }
 
+  // -------------------------------------------------------------------------
+  // 3D Gallery: scroll-reveal + floating + interactive 3D tilt on hover
+  // -------------------------------------------------------------------------
+  var g3dCards = document.querySelectorAll('.reveal-3d');
+  if (g3dCards.length) {
+    if ('IntersectionObserver' in window && !reduce) {
+      var g3dIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            // Start floating after the entrance animation finishes
+            setTimeout(function () { e.target.classList.add('floating'); }, 1200);
+            g3dIO.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      g3dCards.forEach(function (el) { g3dIO.observe(el); });
+    } else {
+      g3dCards.forEach(function (el) { el.classList.add('in'); el.classList.add('floating'); });
+    }
+
+    // Interactive 3D tilt on pointer move
+    if (!reduce) {
+      g3dCards.forEach(function (card) {
+        card.addEventListener('pointermove', function (e) {
+          var r = card.getBoundingClientRect();
+          var x = (e.clientX - r.left) / r.width - 0.5;
+          var y = (e.clientY - r.top) / r.height - 0.5;
+          var rY = x * 16, rX = -y * 12;
+          card.style.transform = 'perspective(900px) translateY(-14px) rotateX(' + rX.toFixed(2) + 'deg) rotateY(' + rY.toFixed(2) + 'deg) scale(1.03)';
+          // Move the shine to follow the cursor
+          var shine = card.querySelector('.g3d-shine');
+          if (shine) {
+            shine.style.transition = 'none';
+            shine.style.transform = 'translateX(' + (x * 240).toFixed(1) + '%)';
+          }
+        });
+        card.addEventListener('pointerleave', function () {
+          card.style.transform = '';
+          var shine = card.querySelector('.g3d-shine');
+          if (shine) {
+            shine.style.transition = '';
+            shine.style.transform = 'translateX(-120%)';
+          }
+        });
+      });
+    }
+  }
+
   // Tilt
   if (!reduce) {
     document.querySelectorAll('[data-tilt]').forEach(function (el) {

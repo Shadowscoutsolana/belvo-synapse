@@ -156,6 +156,30 @@ a:hover>.arrow,.btn:hover .arrow{transform:translateX(4px)}
 .card.ink{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .card.soft{background:var(--paper-2)}
 .card.hover:hover{transform:translateY(-4px);box-shadow:0 24px 50px -24px rgba(12,12,13,.35)}
+
+/* Dark section & Dark page card contrast guard: ensures 100% crisp readability */
+.dark .card,
+.section.dark .card,
+.insights-page .card {
+  background: linear-gradient(145deg, rgba(28, 28, 34, 0.94) 0%, rgba(16, 16, 20, 0.97) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: #ffffff !important;
+}
+.dark .card h1, .dark .card h2, .dark .card h3, .dark .card h4,
+.section.dark .card h1, .section.dark .card h2, .section.dark .card h3, .section.dark .card h4,
+.insights-page .card h1, .insights-page .card h2, .insights-page .card h3, .insights-page .card h4 {
+  color: #ffffff !important;
+}
+.dark .card p,
+.section.dark .card p,
+.insights-page .card p {
+  color: #d6d3cb !important;
+}
+.dark .card .label,
+.section.dark .card .label,
+.insights-page .card .label {
+  color: var(--accent) !important;
+}
 .card .label{display:block;margin-bottom:14px}
 .card h2,.card h3{margin-bottom:14px}
 .card p{color:var(--muted)}
@@ -562,6 +586,178 @@ a:hover>.arrow,.btn:hover .arrow{transform:translateX(4px)}
 .profile:hover{padding-left:12px;color:var(--accent)}
 .profile small{font-family:var(--font-body);font-size:12px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;font-weight:600}
 
+/* ---------- 3D floating gallery ---------- */
+.gallery3d{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:clamp(20px,3vw,32px);
+  perspective:1200px;
+  transform-style:preserve-3d;
+}
+.g3d-card{
+  position:relative;
+  aspect-ratio:16/10.5;
+  border-radius:24px;
+  overflow:hidden;
+  background:var(--ink-2);
+  border:1px solid rgba(255,255,255,.09);
+  text-decoration:none;
+  color:var(--paper);
+  transform-style:preserve-3d;
+  will-change:transform;
+  transition:transform .55s cubic-bezier(.23,1,.32,1),box-shadow .55s cubic-bezier(.23,1,.32,1),border-color .4s;
+  cursor:pointer;
+  display:block;
+}
+.g3d-card:hover{
+  transform:translateY(-12px) rotateX(2deg) scale(1.02);
+  box-shadow:0 34px 64px -16px rgba(0,0,0,.65),0 20px 42px -16px rgba(255,90,44,.28);
+  border-color:rgba(255,90,44,.35);
+  z-index:10;
+}
+.g3d-media{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+.g3d-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .7s cubic-bezier(.23,1,.32,1),filter .5s;
+  will-change:transform;
+}
+.g3d-card:hover .g3d-media img{
+  transform:scale(1.07);
+  filter:brightness(1.06) saturate(1.12);
+}
+/* Reflection shine overlay */
+.g3d-shine{
+  position:absolute;inset:0;
+  background:linear-gradient(115deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,.05) 25%,
+    rgba(255,255,255,.2) 50%,
+    rgba(255,255,255,.05) 75%,
+    rgba(255,255,255,0) 100%);
+  transform:translateX(-120%);
+  transition:transform .7s cubic-bezier(.23,1,.32,1);
+  pointer-events:none;
+  z-index:1;
+}
+.g3d-card:hover .g3d-shine{transform:translateX(120%)}
+/* Glassmorphic overlay pinned to bottom of the photo */
+.g3d-overlay{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:clamp(28px,4vw,40px) clamp(20px,3vw,28px) clamp(18px,2.5vw,24px);
+  background:linear-gradient(180deg,rgba(12,12,13,0) 0%,rgba(12,12,13,.35) 28%,rgba(12,12,13,.82) 72%,rgba(12,12,13,.95) 100%);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:16px;
+  z-index:2;
+  pointer-events:none;
+}
+.g3d-card-body{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.g3d-kicker{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.g3d-kicker::before{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--accent);
+}
+.g3d-name{
+  font-family:var(--font-display);
+  font-size:clamp(20px,2.2vw,28px);
+  font-weight:600;
+  letter-spacing:-.03em;
+  line-height:1.15;
+  color:#ffffff;
+}
+.g3d-arrow{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:rgba(255,255,255,.14);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:grid;
+  place-items:center;
+  color:#ffffff;
+  flex-shrink:0;
+  transition:background .3s,transform .3s,color .3s;
+}
+.g3d-card:hover .g3d-arrow{
+  background:var(--accent);
+  color:var(--accent-ink);
+  transform:scale(1.12);
+}
+/* Glow under card */
+.g3d-glow{
+  position:absolute;bottom:-20px;left:10%;right:10%;height:50px;
+  background:radial-gradient(ellipse,rgba(255,90,44,.4),transparent 70%);
+  opacity:0;filter:blur(20px);
+  transition:opacity .5s;
+  pointer-events:none;z-index:-1;
+}
+.g3d-card:hover .g3d-glow{opacity:1}
+
+/* Floating animation keyframes */
+@keyframes g3d-float{
+  0%,100%{transform:translateY(0) rotateX(0) rotateY(0)}
+  25%{transform:translateY(-8px) rotateX(1.2deg) rotateY(-0.8deg)}
+  50%{transform:translateY(-4px) rotateX(-0.4deg) rotateY(1.2deg)}
+  75%{transform:translateY(-10px) rotateX(0.8deg) rotateY(-0.4deg)}
+}
+.g3d-card.floating{animation:g3d-float 6.5s ease-in-out infinite}
+.g3d-card[data-float="1"].floating{animation-delay:0s}
+.g3d-card[data-float="2"].floating{animation-delay:-1.6s}
+.g3d-card[data-float="3"].floating{animation-delay:-3.2s}
+.g3d-card[data-float="4"].floating{animation-delay:-4.8s}
+.g3d-card:hover{animation-play-state:paused !important}
+
+/* Scroll reveal: cards fly in from 3D space */
+.js .reveal-3d{
+  opacity:0;
+  transform:perspective(900px) translateY(70px) rotateX(10deg) scale(.92);
+  transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);
+}
+.js .reveal-3d.in{
+  opacity:1;
+  transform:perspective(900px) translateY(0) rotateX(0) scale(1);
+}
+/* Stagger each card */
+.js .reveal-3d:nth-child(1){transition-delay:.05s}
+.js .reveal-3d:nth-child(2){transition-delay:.18s}
+.js .reveal-3d:nth-child(3){transition-delay:.31s}
+.js .reveal-3d:nth-child(4){transition-delay:.44s}
+
+/* Responsive for gallery */
+@media (max-width:768px){
+  .gallery3d{grid-template-columns:1fr;gap:18px}
+  .g3d-card{aspect-ratio:16/11}
+}
+
 /* ---------- CTA ---------- */
 .cta{background:var(--accent);color:var(--accent-ink);padding:clamp(80px,11vw,160px) 0}
 .cta .h2{font-size:clamp(44px,8vw,128px);letter-spacing:-.05em;line-height:.92;max-width:12ch;margin:22px 0 32px}
@@ -593,6 +789,8 @@ code.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px
 .js .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   .js .reveal{opacity:1;transform:none;transition:none}
+  .js .reveal-3d{opacity:1;transform:none;transition:none}
+  .g3d-card.floating{animation:none}
   .marquee-track,.trust .dot{animation:none}
   html{scroll-behavior:auto}
 }
@@ -620,4 +818,35 @@ code.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px
 @media (max-width:640px){
   .cards.c3{grid-template-columns:1fr}
   .hero{min-height:88vh}
+}
+
+/* Universal Crisp Share Button */
+.share-action-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  padding: 6px 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  text-decoration: none !important;
+  line-height: 1 !important;
+}
+.share-action-btn svg {
+  stroke: #ffffff !important;
+  flex-shrink: 0;
+}
+.share-action-btn:hover {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #0c0c0d !important;
+  transform: translateY(-1px) !important;
+}
+.share-action-btn:hover svg {
+  stroke: #0c0c0d !important;
 }

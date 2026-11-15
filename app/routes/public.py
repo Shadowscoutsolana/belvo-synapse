@@ -7,6 +7,7 @@ from app.database import get_db
 from app.models.company import Company, Venture, Person, Achievement, ProductService, FAQ
 from app.models.seo import ExternalProfile, PageSEO
 from app.services.seo_service import SEOService
+from app.services.insights_service import InsightsService
 from app.config import settings
 
 templates = Jinja2Templates(directory=str(Path(__file__).parent.parent / "templates"))
@@ -176,6 +177,56 @@ def faq_page(request: Request, db: Session = Depends(get_db)):
             "seo_title": "Frequently Asked Questions | Belvo Ventures Group",
             "meta_description": "Official answers and verified facts about Belvo Ventures Group, its founder, operating divisions, and history.",
             "canonical_url": f"{settings.BASE_URL}/faq"
+        }
+    )
+
+@router.get("/insights")
+def insights_page(request: Request, db: Session = Depends(get_db)):
+    company = db.query(Company).first()
+    nine_ventures = InsightsService.get_nine_ventures()
+    belqora_categories = InsightsService.get_belqora_categories()
+    founder = InsightsService.get_founder_data()
+    milestones = InsightsService.get_timeline_milestones()
+    articles = InsightsService.get_articles()
+    featured_article = next((a for a in articles if a.get("featured")), articles[0] if articles else None)
+
+    return templates.TemplateResponse(
+        request=request,
+        name="public/insights.html",
+        context={
+            "company": company,
+            "nine_ventures": nine_ventures,
+            "belqora_categories": belqora_categories,
+            "founder": founder,
+            "milestones": milestones,
+            "articles": articles,
+            "featured_article": featured_article,
+            "seo_title": "Belvo Insights | Company Story, Ecosystem & Perspectives",
+            "meta_description": "Official company story, nine-venture ecosystem architecture, and founder insights from Belvo Ventures Group, Mumbai.",
+            "canonical_url": f"{settings.BASE_URL}/insights"
+        }
+    )
+
+@router.get("/insights/{slug}")
+def insight_article_detail(slug: str, request: Request, db: Session = Depends(get_db)):
+    company = db.query(Company).first()
+    article = InsightsService.get_article_by_slug(slug)
+    if not article:
+        raise HTTPException(status_code=404, detail="Article not found")
+
+    articles = InsightsService.get_articles()
+    related_articles = [a for a in articles if a["slug"] != slug][:3]
+
+    return templates.TemplateResponse(
+        request=request,
+        name="public/article_detail.html",
+        context={
+            "company": company,
+            "article": article,
+            "related_articles": related_articles,
+            "seo_title": f"{article['title']} | Belvo Insights",
+            "meta_description": article["summary"],
+            "canonical_url": f"{settings.BASE_URL}/insights/{article['slug']}"
         }
     )
 
